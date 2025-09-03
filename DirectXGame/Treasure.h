@@ -1,28 +1,34 @@
 #pragma once
 #include <KamataEngine.h>
 
+enum class TreasureType {
+    Shallow,
+    Middle,
+    Deep
+};
+
 class Treasure
 {
 public:
-	// コンストラクタ
-	Treasure();
+    Treasure();
+    ~Treasure();
 
-	// デストラクタ
-	~Treasure();
+    void Initialize(TreasureType type);
+    void Update();
+    void Draw(KamataEngine::Camera* camera);
 
-	// 初期化
-	void Initialize();
+    void Collect() { collected_ = true; }
+    bool IsCollected() const { return collected_; }
+    int GetScore() const { return score_; }
 
-	// 更新
-	void Update();
-
-	// 描画
-	void Draw(KamataEngine::Camera* camera);
+    const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
+    KamataEngine::Vector3 GetSize() const { return size_; }
 
 private:
-	// ワールドトランスフォーム
-	KamataEngine::WorldTransform worldTransform_;
-
-	// プレイヤーモデル
-	KamataEngine::Model* treasureModel_ = nullptr;
+    TreasureType type_;
+    int score_ = 0;
+    bool collected_ = false;
+    KamataEngine::WorldTransform worldTransform_;
+    KamataEngine::Model* treasureModel_ = nullptr;
+    KamataEngine::Vector3 size_ = { 1.0f, 1.0f, 1.0f };
 };

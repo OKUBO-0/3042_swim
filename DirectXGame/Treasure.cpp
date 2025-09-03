@@ -1,35 +1,33 @@
 #include "Treasure.h"
-
 using namespace KamataEngine;
 
-// コンストラクタ
-Treasure::Treasure() {
+Treasure::Treasure() {}
+Treasure::~Treasure() { delete treasureModel_; }
+
+void Treasure::Initialize(TreasureType type) {
+    type_ = type;
+    worldTransform_.Initialize();
+    treasureModel_ = Model::CreateFromOBJ("cube");
+
+    switch (type_) {
+    case TreasureType::Shallow:
+        worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), 5.0f, 0.0f };
+        score_ = 10; break;
+    case TreasureType::Middle:
+        worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -10.0f, 0.0f };
+        score_ = 30; break;
+    case TreasureType::Deep:
+        worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -25.0f, 0.0f };
+        score_ = 50; break;
+    }
+
+    size_ = { 1.0f, 1.0f, 1.0f };
 }
 
-// デストラクタ
-Treasure::~Treasure() {
-	delete treasureModel_;
-}
-
-// 初期化
-void Treasure::Initialize() {
-	// プレイヤーモデルの読み込み
-	treasureModel_ = Model::CreateFromOBJ("cube");
-
-	// ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
-	worldTransform_.translation_ = { 10.0f, 00.0f, 0.0f };
-}
-
-// 更新
 void Treasure::Update() {
-	// ワールドトランスフォームの更新
-	worldTransform_.UpdateMatrix();
+    worldTransform_.UpdateMatrix();
 }
 
-// 描画
-void Treasure::Draw(KamataEngine::Camera* camera) {
-	if (camera) {
-		treasureModel_->Draw(worldTransform_, *camera);
-	}
+void Treasure::Draw(Camera* camera) {
+    if (!collected_ && camera) treasureModel_->Draw(worldTransform_, *camera);
 }

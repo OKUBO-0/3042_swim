@@ -9,7 +9,7 @@ GameScene::GameScene() {
 // デストラクタ
 GameScene::~GameScene() {
 	delete player_;
-	delete treasure_;
+	delete treasureManager_;
 	delete stage_;
 	delete graph_;
 	delete score_;
@@ -31,8 +31,8 @@ void GameScene::Initialize() {
 	player_->Initialize();
 
 	// 宝の初期化
-	treasure_ = new Treasure();
-	treasure_->Initialize();
+	treasureManager_ = new TreasureManager();
+	treasureManager_->Initialize();
 
 	// ステージの初期化
 	stage_ = new Stage();
@@ -53,20 +53,20 @@ void GameScene::Update() {
 		finished_ = true;
 	}
 
-	// プレイヤーの更新
 	player_->Update();
-
-	// 宝の更新
-	treasure_->Update();
-
-	// ステージの更新
 	stage_->Update();
-
-	// グラフの更新
 	graph_->Update();
 
-	// スコアの更新
+	treasureManager_->Update();
+	treasureManager_->CheckCollision(player_);
+
 	static int currentScore = 0;
+
+	if (player_->GetWorldTransform().translation_.y >= 10.0f) {
+		currentScore += treasureManager_->GetPendingScore();
+		treasureManager_->ClearPendingScore();
+	}
+
 	score_->SetNumber(currentScore);
 	score_->Update();
 }
@@ -97,7 +97,7 @@ void GameScene::Draw() {
 	player_->Draw();
 
 	// 宝の描画
-	treasure_->Draw(&player_->GetCamera());
+	treasureManager_->Draw(&player_->GetCamera());
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
