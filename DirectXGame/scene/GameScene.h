@@ -1,54 +1,56 @@
-#pragma once
-#include "../Player.h"
-#include "../Stage.h"
-#include "../Graph2D.h"
-#include "../Score.h"
+#pragma once  
+#include "../Player.h"  
+#include "../Stage.h"  
+#include "../Graph2D.h"  
+#include "../Score.h"  
+#include "../AirMeter.h" 
+#include "IScene.h"  
+#include <KamataEngine.h>  
 
-#include "IScene.h"
+class GameScene : public IScene  
+{  
+public:  
+	// コンストラクタ  
+	GameScene();  
 
-#include <KamataEngine.h>
+	// デストラクタ  
+	~GameScene();  
 
-class GameScene : public IScene
-{
-public:
-	// コンストラクタ
-	GameScene();
+	// 初期化  
+	void Initialize();  
 
-	// デストラクタ
-	~GameScene();
+	// 更新  
+	void Update();  
 
-	// 初期化
-	void Initialize();
+	// 描画  
+	void Draw();  
 
-	// 更新
-	void Update();
+	// 終了フラグ  
+	bool IsFinished() const { return finished_; }  
 
-	// 描画
-	void Draw();
+private:  
+	KamataEngine::DirectXCommon* dxCommon_ = nullptr;  
+	KamataEngine::Input* input_ = nullptr;  
+	KamataEngine::Audio* audio_ = nullptr;  
 
-	// 終了フラグ
-	bool IsFinished() const { return finished_; }
+	// カメラ  
+	KamataEngine::Camera camera_;  
 
-private:
-	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
-	KamataEngine::Input* input_ = nullptr;
-	KamataEngine::Audio* audio_ = nullptr;
+	// プレイヤー  
+	Player* player_ = nullptr;  
 
-	// カメラ
-	KamataEngine::Camera camera_;
+	// ステージ  
+	Stage* stage_ = nullptr;  
 
-	// プレイヤー
-	Player* player_ = nullptr;
+	// グラフ  
+	Graph2D* graph_ = nullptr;  
 
-	// ステージ
-	Stage* stage_ = nullptr;
+	// スコア  
+	Score* score_ = nullptr;  
 
-	// グラフ
-	Graph2D* graph_ = nullptr;
+	// 酸素ゲージ  
+	AirMeter* airMeter_ = nullptr;	  
 
-	// スコア
-	Score* score_ = nullptr;
-
-	// 終了フラグ
-	bool finished_ = false;
+	// 終了フラグ  
+	bool finished_ = false;  
 };

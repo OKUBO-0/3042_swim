@@ -15,9 +15,12 @@ public:
 
 	// 更新
 	void Update();
-
+	
 	// 描画
 	void Draw();
+
+	KamataEngine::Vector3 GetPosition() { return worldTransform_.translation_; }
+
 
 private:
 	// 入力インスタンス
@@ -32,4 +35,5 @@ private:
 	KamataEngine::Model* playerModel_ = nullptr;
 
 	float speed_ = 0.3f;
+
 };

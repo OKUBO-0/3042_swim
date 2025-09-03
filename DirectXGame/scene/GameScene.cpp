@@ -41,6 +41,10 @@ void GameScene::Initialize() {
 	score_ = new Score();
 	score_->Initialize();
 	score_->SetNumber(0);
+
+	airMeter_ = new AirMeter();
+	airMeter_->Initialize();
+
 }
 
 void GameScene::Update() {
@@ -56,6 +60,9 @@ void GameScene::Update() {
 
 	// グラフの更新
 	graph_->Update();
+
+	// エアメーターの更新
+	airMeter_->Update(player_->GetPosition());
 
 	// スコアの更新
 	static int currentScore = 0;
@@ -101,6 +108,9 @@ void GameScene::Draw() {
 
 	// スコアの描画
 	score_->Draw();
+
+	// 酸素ゲージ
+	airMeter_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

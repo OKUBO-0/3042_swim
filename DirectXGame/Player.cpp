@@ -22,6 +22,7 @@ void Player::Initialize() {
 	// プレイヤーモデルの読み込み
 	playerModel_ = Model::CreateFromOBJ("octopus");
 
+
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = { 0.0f, 10.0f, 0.0f };
