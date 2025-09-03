@@ -9,6 +9,7 @@ GameScene::GameScene() {
 // デストラクタ
 GameScene::~GameScene() {
 	delete player_;
+	delete treasure_;
 	delete stage_;
 	delete graph_;
 	delete score_;
@@ -28,6 +29,10 @@ void GameScene::Initialize() {
 	// プレイヤーの初期化
 	player_ = new Player();
 	player_->Initialize();
+
+	// 宝の初期化
+	treasure_ = new Treasure();
+	treasure_->Initialize();
 
 	// ステージの初期化
 	stage_ = new Stage();
@@ -51,6 +56,9 @@ void GameScene::Update() {
 	// プレイヤーの更新
 	player_->Update();
 
+	// 宝の更新
+	treasure_->Update();
+
 	// ステージの更新
 	stage_->Update();
 
@@ -72,7 +80,7 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
 	// ステージの描画
-	//stage_->Draw();
+	stage_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -87,6 +95,9 @@ void GameScene::Draw() {
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// 宝の描画
+	treasure_->Draw(&player_->GetCamera());
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();

@@ -39,6 +39,9 @@ void Player::Update() {
 	}
 	if (input_->PushKey(DIK_S)) {
 		worldTransform_.translation_.y -= speed_;
+		if (worldTransform_.translation_.y < -45.0f) {
+			worldTransform_.translation_.y = -45.0f;
+		}
 	}
 	if (input_->PushKey(DIK_A)) {
 		worldTransform_.translation_.x -= speed_;
@@ -55,6 +58,12 @@ void Player::Update() {
 
 	// ワールドトランスフォームの更新
 	worldTransform_.UpdateMatrix();
+
+	// カメラ追従
+	if (worldTransform_.translation_.y <= 0.0f && worldTransform_.translation_.y >= -30.0f) {
+		camera_.translation_.y = worldTransform_.translation_.y;
+		camera_.UpdateMatrix();
+	}
 }
 
 // 描画

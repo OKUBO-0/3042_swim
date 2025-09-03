@@ -1,14 +1,14 @@
 #pragma once
 #include <KamataEngine.h>
 
-class Player
+class Treasure
 {
 public:
 	// コンストラクタ
-	Player();
+	Treasure();
 
 	// デストラクタ
-	~Player();
+	~Treasure();
 
 	// 初期化
 	void Initialize();
@@ -17,21 +17,12 @@ public:
 	void Update();
 
 	// 描画
-	void Draw();
-
-	KamataEngine::Camera& GetCamera() { return camera_; }
+	void Draw(KamataEngine::Camera* camera);
 
 private:
-	// 入力インスタンス
-	KamataEngine::Input* input_ = nullptr;
 	// ワールドトランスフォーム
 	KamataEngine::WorldTransform worldTransform_;
 
-	// カメラ
-	KamataEngine::Camera camera_;
-
 	// プレイヤーモデル
-	KamataEngine::Model* playerModel_ = nullptr;
-
-	float speed_ = 0.3f;
+	KamataEngine::Model* treasureModel_ = nullptr;
 };

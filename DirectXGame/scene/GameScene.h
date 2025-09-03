@@ -1,5 +1,6 @@
 #pragma once
 #include "../Player.h"
+#include "../Treasure.h"
 #include "../Stage.h"
 #include "../Graph2D.h"
 #include "../Score.h"
@@ -39,6 +40,9 @@ private:
 
 	// プレイヤー
 	Player* player_ = nullptr;
+
+	// 宝
+	Treasure* treasure_ = nullptr;
 
 	// ステージ
 	Stage* stage_ = nullptr;
