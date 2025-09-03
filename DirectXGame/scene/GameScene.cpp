@@ -72,7 +72,7 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
 	// ステージの描画
-	stage_->Draw();
+	//stage_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
