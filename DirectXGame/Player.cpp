@@ -24,23 +24,33 @@ void Player::Initialize() {
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
+	worldTransform_.translation_ = { 0.0f, 10.0f, 0.0f };
 }
 
 // 更新
 void Player::Update() {
 	// 入力の取得
+	// 上移動
 	if (input_->PushKey(DIK_W)) {
-		worldTransform_.translation_.y += speed_; // 前進
+		worldTransform_.translation_.y += speed_;
+		if (worldTransform_.translation_.y > 10.0f) {
+			worldTransform_.translation_.y = 10.0f;
+		}
 	}
 	if (input_->PushKey(DIK_S)) {
-		worldTransform_.translation_.y -= speed_; // 後退
+		worldTransform_.translation_.y -= speed_;
 	}
 	if (input_->PushKey(DIK_A)) {
-		worldTransform_.translation_.x -= speed_; // 左移動
+		worldTransform_.translation_.x -= speed_;
+		if (worldTransform_.translation_.x < -30.0f) {
+			worldTransform_.translation_.x = -30.0f;
+		}
 	}
 	if (input_->PushKey(DIK_D)) {
-		worldTransform_.translation_.x += speed_; // 右移動
+		worldTransform_.translation_.x += speed_;
+		if (worldTransform_.translation_.x > 30.0f) {
+			worldTransform_.translation_.x = 30.0f;
+		}
 	}
 
 	// ワールドトランスフォームの更新
