@@ -12,6 +12,21 @@ GameScene::~GameScene() {
 	delete stage_;
 	delete graph_;
 	delete score_;
+
+	for (Treasure* treasure : lowTreasures_) {
+		delete treasure;
+	}
+	lowTreasures_.clear();
+
+	for (Treasure* treasure : midlleTreasures_) {
+		delete treasure;
+	}
+	midlleTreasures_.clear();
+
+	for (Treasure* treasure : highTreasures_) {
+		delete treasure;
+	}
+	highTreasures_.clear();
 }
 
 void GameScene::Initialize() {
@@ -41,6 +56,49 @@ void GameScene::Initialize() {
 	score_ = new Score();
 	score_->Initialize();
 	score_->SetNumber(0);
+
+	// 乱数初期化（Initialize() の最初で一度だけ）
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+	// 低い宝（上側：Y 0～6）
+	for (int i = 0; i < 1; i++) {
+		Treasure* treasure = new Treasure();
+		treasure->Initialize();
+
+		float x = static_cast<float>(rand() % 501 - 250) / 10.0f; // -25 ~ +25
+		float y = static_cast<float>(rand() % 7);                  // 0 ~ 6
+		float z = 0.0f;
+
+		treasure->SetPosition({ x, y, z });
+		lowTreasures_.push_back(treasure);
+	}
+
+	// 中くらいの宝（中央：Y 11～17）
+	for (int i = 0; i < 2; i++) {
+		Treasure* treasure = new Treasure();
+		treasure->Initialize();
+
+		float x = static_cast<float>(rand() % 501 - 250) / 10.0f; // -25 ~ +25
+		float y = -11.0f + static_cast<float>(rand() % 7);          // 11 ~ 17
+		float z = 0.0f;
+
+		treasure->SetPosition({ x, y, z });
+		midlleTreasures_.push_back(treasure);
+	}
+
+	// 高い宝（下側：Y 22～24）
+	for (int i = 0; i < 3; i++) {
+		Treasure* treasure = new Treasure();
+		treasure->Initialize();
+
+		float x = static_cast<float>(rand() % 501 - 250) / 10.0f; // -25 ~ +25
+		float y = -22.0f + static_cast<float>(rand() % 3);          // 22 ~ 24
+		float z = 0.0f;
+
+		treasure->SetPosition({ x, y, z });
+		highTreasures_.push_back(treasure);
+	}
+
 }
 
 void GameScene::Update() {
@@ -61,6 +119,21 @@ void GameScene::Update() {
 	static int currentScore = 0;
 	score_->SetNumber(currentScore);
 	score_->Update();
+
+	// 低い宝の更新
+	for (Treasure* treasure : lowTreasures_) {
+		treasure->Update();
+	}
+
+	// 中くらいの宝の更新
+	for (Treasure* treasure : midlleTreasures_) {
+		treasure->Update();
+	}
+
+	// 高い宝の更新
+	for (Treasure* treasure : highTreasures_) {
+		treasure->Update();
+	}
 }
 
 void GameScene::Draw() {
@@ -87,6 +160,21 @@ void GameScene::Draw() {
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// 低い宝の描画
+	for (Treasure* treasure : lowTreasures_) {
+		treasure->Draw(&camera_);
+	}
+
+	// 中くらいの宝の描画
+	for (Treasure* treasure : midlleTreasures_) {
+		treasure->Draw(&camera_);
+	}
+
+	// 高い宝の描画
+	for (Treasure* treasure : highTreasures_) {
+		treasure->Draw(&camera_);
+	}
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();

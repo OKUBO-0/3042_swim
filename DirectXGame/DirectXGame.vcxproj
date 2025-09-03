@@ -114,6 +114,7 @@
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
+    <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,7 @@
     <ClInclude Include="Score.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="scene\TitleScene.h" />
+    <ClInclude Include="Treasure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

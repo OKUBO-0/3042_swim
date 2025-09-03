@@ -3,6 +3,7 @@
 #include "../Stage.h"
 #include "../Graph2D.h"
 #include "../Score.h"
+#include "../Treasure.h"
 
 #include "IScene.h"
 
@@ -51,4 +52,13 @@ private:
 
 	// 終了フラグ
 	bool finished_ = false;
+
+	// 低い宝たち
+	std::vector<Treasure*> lowTreasures_;
+
+	// 中くらいの宝たち
+	std::vector<Treasure*> midlleTreasures_;
+
+	// 高いの宝たち
+	std::vector<Treasure*> highTreasures_;
 };
