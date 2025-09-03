@@ -1,17 +1,21 @@
 #pragma once
-#include "Stage.h"
+#include "../Player.h"
+#include "../Stage.h"
+#include "../Graph2D.h"
+#include "../Score.h"
+
 #include "IScene.h"
 
 #include <KamataEngine.h>
 
-class TitleScene : public IScene
+class GameScene : public IScene
 {
 public:
 	// コンストラクタ
-	TitleScene();
+	GameScene();
 
 	// デストラクタ
-	~TitleScene();
+	~GameScene();
 
 	// 初期化
 	void Initialize();
@@ -33,18 +37,17 @@ private:
 	// カメラ
 	KamataEngine::Camera camera_;
 
-	// 背景スプライト
-	uint32_t backgroundSpriteHandle_ = 0;
-	KamataEngine::Sprite* backgroundSprite_ = nullptr;
+	// プレイヤー
+	Player* player_ = nullptr;
 
-	// タイトルスプライト
-	uint32_t titleSpriteHandle_ = 0;
-	KamataEngine::Sprite* titleSprite_ = nullptr;
-	float titleAlpha_ = 0.0f;
+	// ステージ
+	Stage* stage_ = nullptr;
 
-	// タイトルUIスプライト
-	uint32_t titleUISpriteHandle_ = 0;
-	KamataEngine::Sprite* titleUISprite_ = nullptr;
+	// グラフ
+	Graph2D* graph_ = nullptr;
+
+	// スコア
+	Score* score_ = nullptr;
 
 	// 終了フラグ
 	bool finished_ = false;

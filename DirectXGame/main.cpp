@@ -1,6 +1,6 @@
-#include "SceneManager.h"
-#include "TitleScene.h"
-#include "GameScene.h"
+#include "scene/SceneManager.h"
+#include "scene/TitleScene.h"
+#include "scene/GameScene.h"
 
 #include <KamataEngine.h>
 #include <Windows.h>
