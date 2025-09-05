@@ -2,74 +2,82 @@
 
 using namespace KamataEngine;
 
-// コンストラクタ
-ResultScene::ResultScene() {
-}
+// ==============================
+// コンストラクタ / デストラクタ
+// ==============================
+ResultScene::ResultScene() {}
 
-// デストラクタ
 ResultScene::~ResultScene() {
+    delete scoreDisplay_;
 }
 
+// ==============================
+// 初期化
+// ==============================
 void ResultScene::Initialize() {
-	// DirectXCommonインスタンスの取得
-	dxCommon_ = DirectXCommon::GetInstance();
-	// Inputインスタンスの取得
-	input_ = Input::GetInstance();
-	// Audioインスタンスの取得
-	audio_ = Audio::GetInstance();
+    // ----- エンジン関連の取得 -----
+    dxCommon_ = DirectXCommon::GetInstance();
+    input_ = Input::GetInstance();
+    audio_ = Audio::GetInstance();
 
-	// カメラ
-	camera_.Initialize();
+    // ----- カメラ初期化 -----
+    camera_.Initialize();
 
-	// スコア
-	scoreDisplay_ = new Score();
-	scoreDisplay_->Initialize();
-	scoreDisplay_->SetNumber(finalScore_);
+    // ----- スコア表示初期化 -----
+    scoreDisplay_ = new Score();
+    scoreDisplay_->Initialize();
+    scoreDisplay_->SetNumber(finalScore_);
 }
 
+// ==============================
+// 更新
+// ==============================
 void ResultScene::Update() {
-	if (input_->TriggerKey(DIK_RETURN)) {
-		finished_ = true;
-	}
+    // ----- Enterキーでシーン終了 -----
+    if (input_->TriggerKey(DIK_RETURN)) {
+        finished_ = true;
+    }
 
-	if (scoreDisplay_) scoreDisplay_->SetNumber(finalScore_);
+    // ----- スコア表示更新 -----
+    if (scoreDisplay_) {
+        scoreDisplay_->SetNumber(finalScore_);
+    }
 }
 
+// ==============================
+// 描画
+// ==============================
 void ResultScene::Draw() {
-	// DirectXCommon インスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 #pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCommandList());
+    Sprite::PreDraw(dxCommon->GetCommandList());
+    // 背景スプライトは必要ならここに追加
+    Sprite::PostDraw();
 
-	// スプライト描画後処理
-	Sprite::PostDraw();
-
-	// 深度バッファクリア
-	dxCommon_->ClearDepthBuffer();
+    dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	// 3Dモデル描画前処理
-	Model::PreDraw(dxCommon->GetCommandList());
-
-	// 3Dモデル描画後処理
-	Model::PostDraw();
+    Model::PreDraw(dxCommon->GetCommandList());
+    // 3Dモデル描画は必要ならここに追加
+    Model::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCommandList());
+    Sprite::PreDraw(dxCommon->GetCommandList());
 
-	if (scoreDisplay_) scoreDisplay_->Draw();
+    // スコア描画
+    if (scoreDisplay_) scoreDisplay_->Draw();
 
-	// スプライト描画後処理
-	Sprite::PostDraw();
+    Sprite::PostDraw();
 #pragma endregion
 }
 
+// ==============================
+// スコア設定
+// ==============================
 void ResultScene::SetScore(int score) {
-	finalScore_ = score;
-	if (scoreDisplay_) scoreDisplay_->SetNumber(finalScore_);
+    finalScore_ = score;
+    if (scoreDisplay_) scoreDisplay_->SetNumber(finalScore_);
 }

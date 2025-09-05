@@ -1,12 +1,18 @@
 #include "Player.h"
 using namespace KamataEngine;
 
+// ==============================
+// コンストラクタ / デストラクタ
+// ==============================
 Player::Player() {}
 
 Player::~Player() {
     delete playerModel_;
 }
 
+// ==============================
+// 初期化
+// ==============================
 void Player::Initialize() {
     // 入力インスタンス取得
     input_ = Input::GetInstance();
@@ -21,15 +27,20 @@ void Player::Initialize() {
     worldTransform_.Initialize();
     worldTransform_.translation_ = { 0.0f, 10.0f, 0.0f }; // 初期位置（Y=10）
 
-    // 衝突判定用サイズ
-    size_ = { 1.0f, 2.0f, 1.0f };
-
     // 回転初期化
     worldTransform_.rotation_ = { 0.0f, 0.0f, 0.0f };
+
+    // 衝突判定用サイズ
+    size_ = { 1.0f, 2.0f, 1.0f };
 }
 
+// ==============================
+// 更新
+// ==============================
 void Player::Update() {
-    // 移動
+    // -----------------------------
+    // 移動処理
+    // -----------------------------
     if (input_->PushKey(DIK_W)) {
         worldTransform_.translation_.y += speed_;
         if (worldTransform_.translation_.y > 10.0f) worldTransform_.translation_.y = 10.0f;
@@ -47,20 +58,21 @@ void Player::Update() {
         if (worldTransform_.translation_.x > 30.0f) worldTransform_.translation_.x = 30.0f;
     }
 
-    // --- 回転処理 ---
-    // デフォルトは正面向き
-    float targetRotX = 0.0f;
-    float targetRotY = 0.0f;
+    // -----------------------------
+    // 回転処理（スムーズ補間）
+    // -----------------------------
+    float targetRotX = 0.0f; // X軸回転（前後）
+    float targetRotY = 0.0f; // Y軸回転（左右）
 
-    // Sキーで下向き（前回転で -π/2）
+    // 前後方向
     if (input_->PushKey(DIK_S)) {
-        targetRotX = -3.14159265f / 2.0f; // -90度（前回転で下向き）
+        targetRotX = -3.14159265f / 2.0f; // 下向き（前回転で-90度）
     }
     else if (input_->PushKey(DIK_W)) {
-        targetRotX = 0.0f; // 上は正面
+        targetRotX = 0.0f; // 正面
     }
 
-    // A・DでY軸回転
+    // 左右方向
     if (input_->PushKey(DIK_A)) {
         targetRotY = 3.14159265f / 2.0f; // 左90度
     }
@@ -68,7 +80,7 @@ void Player::Update() {
         targetRotY = -3.14159265f / 2.0f;  // 右90度
     }
 
-    // --- スムーズ補間 ---
+    // スムーズに補間
     worldTransform_.rotation_.x += (targetRotX - worldTransform_.rotation_.x) * rotationSpeed_;
     worldTransform_.rotation_.y += (targetRotY - worldTransform_.rotation_.y) * rotationSpeed_;
 
@@ -79,7 +91,6 @@ void Player::Update() {
 
     // -----------------------------
     // カメラ Y 追従
-    // プレイヤーが水中（0 >= y >= -30）の場合のみ追従
     // -----------------------------
     if (worldTransform_.translation_.y <= 0.0f &&
         worldTransform_.translation_.y >= -30.0f)
@@ -89,7 +100,11 @@ void Player::Update() {
     }
 }
 
+// ==============================
+// 描画
+// ==============================
 void Player::Draw() {
-    // プレイヤーモデル描画
-    playerModel_->Draw(worldTransform_, camera_);
+    if (playerModel_) {
+        playerModel_->Draw(worldTransform_, camera_);
+    }
 }

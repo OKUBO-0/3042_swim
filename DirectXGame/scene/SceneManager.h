@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 #include <unordered_map>
 #include <functional>
@@ -6,31 +7,49 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 
+// ==============================
+// シーン名列挙
+// ==============================
 enum class SceneName {
-	Title,
-	Game,
-	Result,
+    Title,
+    Game,
+    Result,
 };
 
+// ==============================
+// シーンマネージャークラス
+// ==============================
 class SceneManager {
 public:
-	SceneManager();
-	~SceneManager();
+    // コンストラクタ / デストラクタ
+    SceneManager();
+    ~SceneManager();
 
-	void Update();
-	void Draw();
+    // 更新
+    void Update();
 
-	// シーン登録
-	void RegisterScene(SceneName name, std::function<std::unique_ptr<IScene>()> createFunc);
+    // 描画
+    void Draw();
 
-	// 初期シーンの設定
-	void ChangeScene(SceneName name);
+    // シーン登録
+    void RegisterScene(
+        SceneName name,
+        std::function<std::unique_ptr<IScene>()> createFunc
+    );
+
+    // シーン切り替え
+    void ChangeScene(SceneName name);
 
 private:
-	std::unordered_map<SceneName, std::function<std::unique_ptr<IScene>()>> sceneFactory_;
-	std::unique_ptr<IScene> currentScene_;
-	SceneName currentSceneName_;
+    // ==============================
+    // メンバ変数
+    // ==============================
+    std::unordered_map<SceneName, std::function<std::unique_ptr<IScene>()>> sceneFactory_;
+    std::unique_ptr<IScene> currentScene_;
+    SceneName currentSceneName_;
 
-	// GameScene のスコアを ResultScene に渡して切り替える
-	void TransferScoreToResult();
+    // ==============================
+    // GameScene のスコアを ResultScene に渡して切り替える
+    // ==============================
+    void TransferScoreToResult();
 };

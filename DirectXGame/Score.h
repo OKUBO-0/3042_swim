@@ -3,35 +3,41 @@
 #include <array>
 #include <KamataEngine.h>
 
+/// ===============================================
+/// @class Score
+/// @brief スコア表示クラス
+/// ===============================================
 class Score
 {
 public:
-	// コンストラクタ
+    // ==============================
+    // コンストラクタ / デストラクタ
+    // ==============================
     Score();
-
-    // デストラクタ
     ~Score();
 
-    // 初期化
-    void Initialize();
+    // ==============================
+    // 基本処理
+    // ==============================
+    void Initialize();   // 初期化
+    void Update();       // 更新
+    void Draw();         // 描画
 
-    // 更新
-    void Update();
-
-    // 描画
-    void Draw();
-
-    // 数値をセット
-    void SetNumber(int number);
+    // ==============================
+    // スコア設定
+    // ==============================
+    void SetNumber(int number); // 表示する数値をセット
 
 private:
-    // 桁数
-    static const int kDigitCount = 5;
+    // ==============================
+    // 定数
+    // ==============================
+    static const int kDigitCount = 5; // 桁数（最大5桁）
 
-    // スプライト
-    std::array<KamataEngine::Sprite*, kDigitCount> sprite_{};
-    uint32_t textureHandle_ = 0;
-
-    // サイズ
-    KamataEngine::Vector2 size_ = { 32.0f, 64.0f };
+    // ==============================
+    // メンバ変数
+    // ==============================
+    std::array<KamataEngine::Sprite*, kDigitCount> sprite_{}; // スコア表示用スプライト
+    uint32_t textureHandle_ = 0;                               // 数字画像のテクスチャハンドル
+    KamataEngine::Vector2 size_ = { 32.0f, 64.0f };           // 各桁のスプライトサイズ
 };

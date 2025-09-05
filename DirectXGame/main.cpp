@@ -8,47 +8,49 @@
 
 using namespace KamataEngine;
 
-// Windowsアプリでのエントリーポイント(main関数)
+// ==============================
+// Windowsアプリケーション エントリーポイント
+// ==============================
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
-	// エンジンの初期化
-	Initialize(L"3042_swim");
+    // ----- エンジン初期化 -----
+    Initialize(L"3042_swim");
 
-	// DirectXCommonのインスタンスを取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+    // DirectXCommon のインスタンス取得
+    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	SceneManager sceneManager;
+    // ----- シーンマネージャー初期化 -----
+    SceneManager sceneManager;
 
-	// シーン登録
-	sceneManager.RegisterScene(SceneName::Title, []() { return std::make_unique<TitleScene>(); });
-	sceneManager.RegisterScene(SceneName::Game, []() { return std::make_unique<GameScene>(); });
-	sceneManager.RegisterScene(SceneName::Result, []() { return std::make_unique<ResultScene>(); });
+    // 各シーンを登録
+    sceneManager.RegisterScene(SceneName::Title, []() { return std::make_unique<TitleScene>(); });
+    sceneManager.RegisterScene(SceneName::Game, []() { return std::make_unique<GameScene>(); });
+    sceneManager.RegisterScene(SceneName::Result, []() { return std::make_unique<ResultScene>(); });
 
-	// 初期シーンをタイトルに設定
-	sceneManager.ChangeScene(SceneName::Title);
+    // 初期シーンをタイトルに設定
+    sceneManager.ChangeScene(SceneName::Title);
 
-	// メインループ
-	while (true) {
-		// エンジンの更新
-		if (Update()) {
-			break;
-		}
+    // ==============================
+    // メインループ
+    // ==============================
+    while (true) {
 
-		// シーン更新
-		sceneManager.Update();
+        // ----- エンジン更新 -----
+        if (Update()) {
+            break;  // 終了リクエストがあればループを抜ける
+        }
 
-		// 描画開始
-		dxCommon->PreDraw();
+        // ----- シーン更新 -----
+        sceneManager.Update();
 
-		// シーンの描画
-		sceneManager.Draw();
+        // ----- 描画処理 -----
+        dxCommon->PreDraw();    // 描画開始
+        sceneManager.Draw();    // シーン描画
+        dxCommon->PostDraw();   // 描画終了
+    }
 
-		// 描画終了
-		dxCommon->PostDraw();
-	}
+    // ----- エンジン終了処理 -----
+    Finalize();
 
-	// エンジンの終了処理
-	Finalize();
-
-	return 0;
+    return 0;
 }

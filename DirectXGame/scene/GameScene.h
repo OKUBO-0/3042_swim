@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../Player.h"
 #include "../TreasureManager.h"
 #include "../Stage.h"
@@ -7,61 +8,62 @@
 #include "../OxygenGauge.h"
 
 #include "IScene.h"
-
 #include <KamataEngine.h>
 
-class GameScene : public IScene
-{
+/// ===============================================
+/// @class GameScene
+/// @brief ゲームプレイ中のシーンを管理するクラス
+/// ===============================================
+class GameScene : public IScene {
 public:
-	// コンストラクタ
-	GameScene();
+    // コンストラクタ / デストラクタ
+    GameScene();
+    ~GameScene();
 
-	// デストラクタ
-	~GameScene();
+    // 初期化
+    void Initialize();
 
-	// 初期化
-	void Initialize();
+    // 更新
+    void Update();
 
-	// 更新
-	void Update();
+    // 描画
+    void Draw();
 
-	// 描画
-	void Draw();
+    // シーン終了判定
+    bool IsFinished() const { return finished_; }
 
-	// 終了フラグ
-	bool IsFinished() const { return finished_; }
+    // スコア取得
+    int GetScore() const { return currentScore_; }
 
-	int GetScore() const { return currentScore_; }
-
-	bool returnToTitle_ = false;
+    // タイトルへ戻るフラグ
+    bool returnToTitle_ = false;
 
 private:
-	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
-	KamataEngine::Input* input_ = nullptr;
-	KamataEngine::Audio* audio_ = nullptr;
+    // ==============================
+    // エンジン関連
+    // ==============================
+    KamataEngine::DirectXCommon* dxCommon_ = nullptr; // DirectX共通管理
+    KamataEngine::Input* input_ = nullptr;            // 入力管理
+    KamataEngine::Audio* audio_ = nullptr;            // サウンド管理
 
-	// カメラ
-	KamataEngine::Camera camera_;
+    // ==============================
+    // カメラ
+    // ==============================
+    KamataEngine::Camera camera_;                     // プレイヤー追従カメラ
 
-	// プレイヤー
-	Player* player_ = nullptr;
+    // ==============================
+    // ゲーム要素
+    // ==============================
+    Player* player_ = nullptr;                        // プレイヤー
+    TreasureManager* treasureManager_ = nullptr;      // 宝物管理
+    Stage* stage_ = nullptr;                          // ステージ
+    Score* score_ = nullptr;                          // スコア表示
+    Timer* timer_ = nullptr;                          // 制限時間タイマー
+    OxygenGauge* oxygenGauge_ = nullptr;             // 酸素ゲージ
 
-	// 宝
-	TreasureManager* treasureManager_ = nullptr;
-
-	// ステージ
-	Stage* stage_ = nullptr;
-
-	// スコア
-	Score* score_ = nullptr;
-	int currentScore_ = 0;
-
-	// タイマー
-	Timer* timer_ = nullptr;
-
-	// 酸素ゲージ
-	OxygenGauge* oxygenGauge_ = nullptr;
-
-	// 終了フラグ
-	bool finished_ = false;
+    // ==============================
+    // スコア・状態管理
+    // ==============================
+    int currentScore_ = 0;                            // 現在のスコア
+    bool finished_ = false;                           // シーン終了フラグ
 };

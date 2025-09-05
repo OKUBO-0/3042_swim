@@ -1,45 +1,56 @@
 #pragma once
+
 #include "../Score.h"
-
 #include "IScene.h"
-
 #include <KamataEngine.h>
 
+/// ===============================================
+/// @class ResultScene
+/// @brief ゲーム終了後のリザルト画面を管理するシーン
+/// ===============================================
 class ResultScene : public IScene
 {
 public:
-	// コンストラクタ
-	ResultScene();
+    // コンストラクタ・デストラクタ
+    ResultScene();
+    ~ResultScene();
 
-	// デストラクタ
-	~ResultScene();
+    // 初期化
+    void Initialize();
 
-	// 初期化
-	void Initialize();
+    // 更新
+    void Update();
 
-	// 更新
-	void Update();
+    // 描画
+    void Draw();
 
-	// 描画
-	void Draw();
+    // シーン終了判定
+    bool IsFinished() const { return finished_; }
 
-	// 終了フラグ
-	bool IsFinished() const { return finished_; }
-
-	void SetScore(int score);
+    // スコアを設定
+    void SetScore(int score);
 
 private:
-	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
-	KamataEngine::Input* input_ = nullptr;
-	KamataEngine::Audio* audio_ = nullptr;
+    // ==============================
+    // エンジン関連
+    // ==============================
+    KamataEngine::DirectXCommon* dxCommon_ = nullptr;
+    KamataEngine::Input* input_ = nullptr;
+    KamataEngine::Audio* audio_ = nullptr;
 
-	// カメラ
-	KamataEngine::Camera camera_;
+    // ==============================
+    // カメラ
+    // ==============================
+    KamataEngine::Camera camera_;
 
-	// スコア
-	Score* scoreDisplay_ = nullptr;
-	int finalScore_ = 0;
+    // ==============================
+    // スコア表示
+    // ==============================
+    Score* scoreDisplay_ = nullptr;  // 表示用スコア
+    int finalScore_ = 0;             // 最終スコア
 
-	// 終了フラグ
-	bool finished_ = false;
+    // ==============================
+    // シーン状態
+    // ==============================
+    bool finished_ = false;          // 終了フラグ
 };

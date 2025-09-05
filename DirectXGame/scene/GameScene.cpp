@@ -2,140 +2,144 @@
 
 using namespace KamataEngine;
 
-// コンストラクタ
-GameScene::GameScene() {
-}
+// ==============================
+// コンストラクタ / デストラクタ
+// ==============================
+GameScene::GameScene() {}
 
-// デストラクタ
 GameScene::~GameScene() {
-	delete player_;
-	delete treasureManager_;
-	delete stage_;
-	delete score_;
-	delete timer_;
+    delete player_;
+    delete treasureManager_;
+    delete stage_;
+    delete score_;
+    delete timer_;
+    delete oxygenGauge_;
 }
 
+// ==============================
+// 初期化
+// ==============================
 void GameScene::Initialize() {
-	// DirectXCommonインスタンスの取得
-	dxCommon_ = DirectXCommon::GetInstance();
-	// Inputインスタンスの取得
-	input_ = Input::GetInstance();
-	// Audioインスタンスの取得
-	audio_ = Audio::GetInstance();
+    // ----- エンジン関連の初期化 -----
+    dxCommon_ = DirectXCommon::GetInstance();
+    input_ = Input::GetInstance();
+    audio_ = Audio::GetInstance();
 
-	// カメラの初期化
-	camera_.Initialize();
+    // ----- カメラ初期化 -----
+    camera_.Initialize();
 
-	// プレイヤーの初期化
-	player_ = new Player();
-	player_->Initialize();
+    // ----- プレイヤー初期化 -----
+    player_ = new Player();
+    player_->Initialize();
 
-	// 宝の初期化
-	treasureManager_ = new TreasureManager();
-	treasureManager_->Initialize();
+    // ----- 宝管理初期化 -----
+    treasureManager_ = new TreasureManager();
+    treasureManager_->Initialize();
 
-	// ステージの初期化
-	stage_ = new Stage();
-	stage_->Initialize();
+    // ----- ステージ初期化 -----
+    stage_ = new Stage();
+    stage_->Initialize();
 
-	// スコアの初期化
-	score_ = new Score();
-	score_->Initialize();
-	currentScore_ = 0;
-	score_->SetNumber(currentScore_);
+    // ----- スコア初期化 -----
+    score_ = new Score();
+    score_->Initialize();
+    currentScore_ = 0;
+    score_->SetNumber(currentScore_);
 
-	// タイマーの初期化
-	timer_ = new Timer();
-	timer_->Initialize();
+    // ----- タイマー初期化 -----
+    timer_ = new Timer();
+    timer_->Initialize();
 
-	// 酸素ゲージの初期化
-	oxygenGauge_ = new OxygenGauge();
-	oxygenGauge_->Initialize();
+    // ----- 酸素ゲージ初期化 -----
+    oxygenGauge_ = new OxygenGauge();
+    oxygenGauge_->Initialize();
 }
 
+// ==============================
+// 更新処理
+// ==============================
 void GameScene::Update() {
-	player_->Update();
-	stage_->Update();
+    // ----- プレイヤー更新 -----
+    player_->Update();
 
-	treasureManager_->Update();
-	treasureManager_->CheckCollision(player_);
+    // ----- ステージ更新 -----
+    stage_->Update();
 
-	if (player_->GetWorldTransform().translation_.y >= 10.0f) {
-		currentScore_ += treasureManager_->GetPendingScore();
-		treasureManager_->ClearPendingScore();
-	}
+    // ----- 宝物の更新 & 当たり判定 -----
+    treasureManager_->Update();
+    treasureManager_->CheckCollision(player_);
 
-	score_->SetNumber(currentScore_);
-	score_->Update();
+    // ----- 宝物を取得したらスコア加算 -----
+    if (player_->GetWorldTransform().translation_.y >= 10.0f) {
+        currentScore_ += treasureManager_->GetPendingScore();
+        treasureManager_->ClearPendingScore();
+    }
 
-	// タイマーの更新
-	float deltaTime = 1.0f / 60.0f; // 仮に 60FPS 固定で計算
-	timer_->Update(deltaTime);
+    // ----- スコア更新 -----
+    score_->SetNumber(currentScore_);
+    score_->Update();
 
-	// 酸素ゲージの更新
-	oxygenGauge_->Update(player_->GetWorldTransform().translation_.y, deltaTime);
+    // ----- タイマー更新 -----
+    float deltaTime = 1.0f / 60.0f; // 仮に60FPS固定
+    timer_->Update(deltaTime);
 
-	if (timer_->IsTimeUp()) {
-		finished_ = true;
-	}
+    // ----- 酸素ゲージ更新 -----
+    oxygenGauge_->Update(player_->GetWorldTransform().translation_.y, deltaTime);
 
-	// 酸素が切れたらゲーム終了
-	if (oxygenGauge_->IsEmpty()) {
-		finished_ = true;
-	}
+    // ----- ゲーム終了判定 -----
+    if (timer_->IsTimeUp()) {
+        finished_ = true;  // 制限時間切れ
+    }
 
-	if (input_->TriggerKey(DIK_ESCAPE)) {
-		returnToTitle_ = true;
-		finished_ = true;
-	}
+    if (oxygenGauge_->IsEmpty()) {
+        finished_ = true;  // 酸素切れ
+    }
+
+    // ----- ESCキーでタイトルに戻る -----
+    if (input_->TriggerKey(DIK_ESCAPE)) {
+        returnToTitle_ = true;
+        finished_ = true;
+    }
 }
 
+// ==============================
+// 描画処理
+// ==============================
 void GameScene::Draw() {
-	// DirectXCommon インスタンスの取得
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+    // DirectXCommonインスタンス取得
+    DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+    // ----- 背景スプライト描画 -----
 #pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCommandList());
+    Sprite::PreDraw(dxCommon->GetCommandList());
+    stage_->Draw();
+    Sprite::PostDraw();
 
-	// ステージの描画
-	stage_->Draw();
-
-	// スプライト描画後処理
-	Sprite::PostDraw();
-
-	// 深度バッファクリア
-	dxCommon_->ClearDepthBuffer();
+    // 深度バッファクリア
+    dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
+    // ----- 3Dモデル描画 -----
 #pragma region 3Dモデル描画
-	// 3Dモデル描画前処理
-	Model::PreDraw(dxCommon->GetCommandList());
-
-	// プレイヤーの描画
-	player_->Draw();
-
-	// 宝の描画
-	treasureManager_->Draw(&player_->GetCamera());
-
-	// 3Dモデル描画後処理
-	Model::PostDraw();
+    Model::PreDraw(dxCommon->GetCommandList());
+    player_->Draw();
+    treasureManager_->Draw(&player_->GetCamera());
+    Model::PostDraw();
 #pragma endregion
 
+    // ----- 前景スプライト描画 -----
 #pragma region 前景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(dxCommon->GetCommandList());
+    Sprite::PreDraw(dxCommon->GetCommandList());
 
-	// 酸素ゲージのの描画
-	oxygenGauge_->Draw();
+    // 酸素ゲージ描画
+    oxygenGauge_->Draw();
 
-	// スコアの描画
-	score_->Draw();
+    // スコア描画
+    score_->Draw();
 
-	// タイマーの描画
-	timer_->Draw();
+    // タイマー描画
+    timer_->Draw();
 
-	// スプライト描画後処理
-	Sprite::PostDraw();
+    Sprite::PostDraw();
 #pragma endregion
 }
