@@ -33,6 +33,8 @@ public:
 
 	int GetScore() const { return currentScore_; }
 
+	bool returnToTitle_ = false;
+
 private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;

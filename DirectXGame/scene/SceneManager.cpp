@@ -21,6 +21,15 @@ void SceneManager::Update() {
 
 	currentScene_->Update();
 
+	// GameSceneでEscape押下時にタイトルに戻す
+	if (currentSceneName_ == SceneName::Game) {
+		auto gameScene = dynamic_cast<GameScene*>(currentScene_.get());
+		if (gameScene && gameScene->returnToTitle_) {
+			ChangeScene(SceneName::Title);
+			return;
+		}
+	}
+
 	if (currentScene_->IsFinished()) {
 		if (currentSceneName_ == SceneName::Title) {
 			ChangeScene(SceneName::Game);

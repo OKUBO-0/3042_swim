@@ -78,6 +78,11 @@ void GameScene::Update() {
 	if (timer_->IsTimeUp()) {
 		finished_ = true;
 	}
+
+	if (input_->TriggerKey(DIK_ESCAPE)) {
+		returnToTitle_ = true;
+		finished_ = true;
+	}
 }
 
 void GameScene::Draw() {
