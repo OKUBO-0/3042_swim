@@ -4,6 +4,7 @@
 #include "../Stage.h"
 #include "../Graph2D.h"
 #include "../Score.h"
+#include "../Timer.h"
 
 #include "IScene.h"
 
@@ -55,6 +56,9 @@ private:
 	// スコア
 	Score* score_ = nullptr;
 	int currentScore_ = 0;
+
+	// タイマー
+	Timer* timer_ = nullptr;
 
 	// 終了フラグ
 	bool finished_ = false;

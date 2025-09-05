@@ -13,6 +13,7 @@ GameScene::~GameScene() {
 	delete stage_;
 	delete graph_;
 	delete score_;
+	delete timer_;
 }
 
 void GameScene::Initialize() {
@@ -47,13 +48,13 @@ void GameScene::Initialize() {
 	score_->Initialize();
 	currentScore_ = 0;
 	score_->SetNumber(currentScore_);
+
+	// タイマーの初期化
+	timer_ = new Timer();
+	timer_->Initialize();
 }
 
 void GameScene::Update() {
-	if (input_->TriggerKey(DIK_RETURN)) {
-		finished_ = true;
-	}
-
 	player_->Update();
 	stage_->Update();
 	graph_->Update();
@@ -68,6 +69,15 @@ void GameScene::Update() {
 
 	score_->SetNumber(currentScore_);
 	score_->Update();
+
+	// タイマーの更新
+	float deltaTime = 1.0f / 60.0f; // 仮に 60FPS 固定で計算
+	timer_->Update(deltaTime);
+
+	// 制限時間チェック
+	if (timer_->IsTimeUp()) {
+		finished_ = true;
+	}
 }
 
 void GameScene::Draw() {
@@ -111,6 +121,9 @@ void GameScene::Draw() {
 
 	// スコアの描画
 	score_->Draw();
+
+	// タイマーの描画
+	timer_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

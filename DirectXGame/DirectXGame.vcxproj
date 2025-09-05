@@ -115,6 +115,7 @@
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="TreasureManager.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Score.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="scene\TitleScene.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Treasure.h" />
     <ClInclude Include="TreasureManager.h" />
   </ItemGroup>
