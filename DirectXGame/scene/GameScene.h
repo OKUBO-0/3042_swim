@@ -55,4 +55,8 @@ private:
 
 	// 終了フラグ
 	bool finished_ = false;
+
+	// ポーズ画面
+	bool isPosed_ = false;
+
 };

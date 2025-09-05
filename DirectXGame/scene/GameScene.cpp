@@ -23,6 +23,9 @@ void GameScene::Initialize() {
 	// Audioインスタンスの取得
 	audio_ = Audio::GetInstance();
 
+	// ポーズフラグの初期化
+	isPosed_ = false;
+
 	// カメラの初期化
 	camera_.Initialize();
 
@@ -49,26 +52,43 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	if (input_->TriggerKey(DIK_RETURN)) {
-		finished_ = true;
+
+	if (isPosed_ == true) {
+		if (input_->TriggerKey(DIK_ESCAPE)) {
+			isPosed_ = false;
+		}
+
+
+
+		return;
+	} 
+	else {
+		if (input_->TriggerKey(DIK_RETURN)) {
+			finished_ = true;
+		}
+
+		if (input_->TriggerKey(DIK_ESCAPE)) {
+			isPosed_ = true;
+		}
+
+		player_->Update();
+		stage_->Update();
+		graph_->Update();
+
+		treasureManager_->Update();
+		treasureManager_->CheckCollision(player_);
+
+		static int currentScore = 0;
+		currentScore++;
+
+		if (player_->GetWorldTransform().translation_.y >= 10.0f) {
+			currentScore += treasureManager_->GetPendingScore();
+			treasureManager_->ClearPendingScore();
+		}
+
+		score_->SetNumber(currentScore);
+		score_->Update();
 	}
-
-	player_->Update();
-	stage_->Update();
-	graph_->Update();
-
-	treasureManager_->Update();
-	treasureManager_->CheckCollision(player_);
-
-	static int currentScore = 0;
-
-	if (player_->GetWorldTransform().translation_.y >= 10.0f) {
-		currentScore += treasureManager_->GetPendingScore();
-		treasureManager_->ClearPendingScore();
-	}
-
-	score_->SetNumber(currentScore);
-	score_->Update();
 }
 
 void GameScene::Draw() {
@@ -117,3 +137,5 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 #pragma endregion
 }
+
+
