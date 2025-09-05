@@ -20,12 +20,19 @@ void ResultScene::Initialize() {
 
 	// カメラ
 	camera_.Initialize();
+
+	// スコア
+	scoreDisplay_ = new Score();
+	scoreDisplay_->Initialize();
+	scoreDisplay_->SetNumber(finalScore_);
 }
 
 void ResultScene::Update() {
 	if (input_->TriggerKey(DIK_RETURN)) {
 		finished_ = true;
 	}
+
+	if (scoreDisplay_) scoreDisplay_->SetNumber(finalScore_);
 }
 
 void ResultScene::Draw() {
@@ -55,7 +62,14 @@ void ResultScene::Draw() {
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
+	if (scoreDisplay_) scoreDisplay_->Draw();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
+}
+
+void ResultScene::SetScore(int score) {
+	finalScore_ = score;
+	if (scoreDisplay_) scoreDisplay_->SetNumber(finalScore_);
 }

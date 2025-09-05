@@ -26,7 +26,7 @@ void SceneManager::Update() {
 			ChangeScene(SceneName::Game);
 		}
 		else if (currentSceneName_ == SceneName::Game) {
-			ChangeScene(SceneName::Result);
+			TransferScoreToResult();
 		}
 		else if (currentSceneName_ == SceneName::Result) {
 			ChangeScene(SceneName::Title);
@@ -38,4 +38,21 @@ void SceneManager::Draw() {
 	if (currentScene_) {
 		currentScene_->Draw();
 	}
+}
+
+void SceneManager::TransferScoreToResult() {
+	// GameScene のスコアを取得
+	auto gameScene = dynamic_cast<GameScene*>(currentScene_.get());
+	if (!gameScene) return;
+
+	int score = gameScene->GetScore();
+
+	// ResultScene を生成してスコアをセット
+	auto resultSceneFunc = sceneFactory_[SceneName::Result];
+	currentScene_ = resultSceneFunc();
+	auto resultScene = dynamic_cast<ResultScene*>(currentScene_.get());
+	if (resultScene) resultScene->SetScore(score);
+
+	currentScene_->Initialize();
+	currentSceneName_ = SceneName::Result;
 }

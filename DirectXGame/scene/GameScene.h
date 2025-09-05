@@ -30,6 +30,8 @@ public:
 	// 終了フラグ
 	bool IsFinished() const { return finished_; }
 
+	int GetScore() const { return currentScore_; }
+
 private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;

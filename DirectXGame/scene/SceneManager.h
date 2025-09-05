@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <functional>
 #include "IScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 
 enum class SceneName {
 	Title,
@@ -28,4 +30,7 @@ private:
 	std::unordered_map<SceneName, std::function<std::unique_ptr<IScene>()>> sceneFactory_;
 	std::unique_ptr<IScene> currentScene_;
 	SceneName currentSceneName_;
+
+	// GameScene のスコアを ResultScene に渡して切り替える
+	void TransferScoreToResult();
 };
