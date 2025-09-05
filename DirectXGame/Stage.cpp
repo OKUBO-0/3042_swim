@@ -12,8 +12,8 @@ Stage::~Stage() {
 
 void Stage::Initialize() {
 	// テクスチャ読み込み
-	backgroundHandle_ = TextureManager::Load("stage.png");
-	inversionHandle_ = TextureManager::Load("inversion.png");
+	backgroundHandle_ = TextureManager::Load("black1x1.png");
+	inversionHandle_ = TextureManager::Load("black1x1.png");
 
 	// スプライト生成（2枚）
 	background1_ = Sprite::Create(backgroundHandle_, { 0.0f, 0.0f });
