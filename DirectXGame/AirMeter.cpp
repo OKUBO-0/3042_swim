@@ -26,26 +26,25 @@ void AirMeter::Initialize() {
 
 }
 
-
 void AirMeter::Update(Vector3 playerPos) {
 	targetPos = playerPos;
 
 	if (targetPos.y < 10.0f) {
-		redHeight += 0.5f; // 伸びるスピード
+		airMeter += 0.25f; // 伸びるスピード
 	} 
 	else {
-		redHeight -= 0.5f; // 縮むスピード
+		airMeter -= 0.5f; // 縮むスピード
 	}
 
-	if (redHeight >= 150) {
-		redHeight = 150;  //最大値
+	if (airMeter >= 150) {
+		airMeter = 150; // 最大値
 	} 
-	else if(redHeight <= 0){
-		redHeight = 0.0f; // 最小値
+	else if (airMeter <= 0) {
+		airMeter = 0.0f; // 最小値
 	}
 
 	// サイズ更新（幅は固定）
-	redGraph_->SetSize({25, redHeight});
+	redGraph_->SetSize({25, airMeter});
 
 
 }

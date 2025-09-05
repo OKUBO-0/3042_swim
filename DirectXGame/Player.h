@@ -24,6 +24,6 @@ private:
     KamataEngine::Camera camera_;
     KamataEngine::Model* playerModel_ = nullptr;
 
-    float speed_ = 0.3f;
+    float speed_ = 0.15f;
     KamataEngine::Vector3 size_ = { 1.0f, 2.0f, 1.0f };
 };

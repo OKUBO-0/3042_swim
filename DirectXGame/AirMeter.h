@@ -23,7 +23,7 @@ private:
 
 	KamataEngine::Vector2 greenPos_;
 
-	float redHeight = 0.0f;
+	float airMeter = 0.0f;
 
 	//画像
 	KamataEngine::Sprite* redGraph_ = nullptr;
