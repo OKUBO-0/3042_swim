@@ -106,6 +106,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="OxygenGauge.cpp" />
     <ClCompile Include="scene\ResultScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Graph2D.cpp" />
@@ -196,6 +197,7 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OxygenGauge.h" />
     <ClInclude Include="scene\ResultScene.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Graph2D.h" />

@@ -52,6 +52,10 @@ void GameScene::Initialize() {
 	// タイマーの初期化
 	timer_ = new Timer();
 	timer_->Initialize();
+
+	// 酸素ゲージの初期化
+	oxygenGauge_ = new OxygenGauge();
+	oxygenGauge_->Initialize();
 }
 
 void GameScene::Update() {
@@ -74,8 +78,15 @@ void GameScene::Update() {
 	float deltaTime = 1.0f / 60.0f; // 仮に 60FPS 固定で計算
 	timer_->Update(deltaTime);
 
-	// 制限時間チェック
+	// 酸素ゲージの更新
+	oxygenGauge_->Update(player_->GetWorldTransform().translation_.y, deltaTime);
+
 	if (timer_->IsTimeUp()) {
+		finished_ = true;
+	}
+
+	// 酸素が切れたらゲーム終了
+	if (oxygenGauge_->IsEmpty()) {
 		finished_ = true;
 	}
 
@@ -121,8 +132,8 @@ void GameScene::Draw() {
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	// グラフの描画
-	graph_->Draw();
+	// 酸素ゲージのの描画
+	oxygenGauge_->Draw();
 
 	// スコアの描画
 	score_->Draw();

@@ -5,6 +5,7 @@
 #include "../Graph2D.h"
 #include "../Score.h"
 #include "../Timer.h"
+#include "../OxygenGauge.h"
 
 #include "IScene.h"
 
@@ -61,6 +62,9 @@ private:
 
 	// タイマー
 	Timer* timer_ = nullptr;
+
+	// 酸素ゲージ
+	OxygenGauge* oxygenGauge_ = nullptr;
 
 	// 終了フラグ
 	bool finished_ = false;
