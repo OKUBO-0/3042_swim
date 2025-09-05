@@ -2,7 +2,6 @@
 #include "../Player.h"
 #include "../TreasureManager.h"
 #include "../Stage.h"
-#include "../Graph2D.h"
 #include "../Score.h"
 #include "../Timer.h"
 #include "../OxygenGauge.h"
@@ -52,9 +51,6 @@ private:
 
 	// ステージ
 	Stage* stage_ = nullptr;
-
-	// グラフ
-	Graph2D* graph_ = nullptr;
 
 	// スコア
 	Score* score_ = nullptr;

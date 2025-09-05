@@ -11,7 +11,6 @@ GameScene::~GameScene() {
 	delete player_;
 	delete treasureManager_;
 	delete stage_;
-	delete graph_;
 	delete score_;
 	delete timer_;
 }
@@ -39,10 +38,6 @@ void GameScene::Initialize() {
 	stage_ = new Stage();
 	stage_->Initialize();
 
-	// グラフの初期化
-	graph_ = new Graph2D();
-	graph_->Initialize();
-
 	// スコアの初期化
 	score_ = new Score();
 	score_->Initialize();
@@ -61,7 +56,6 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	player_->Update();
 	stage_->Update();
-	graph_->Update();
 
 	treasureManager_->Update();
 	treasureManager_->CheckCollision(player_);

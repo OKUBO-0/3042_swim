@@ -24,7 +24,7 @@ void OxygenGauge::Initialize() {
 }
 
 void OxygenGauge::Update(float playerY, float deltaTime) {
-    bool inWater = playerY < 0.0f; // 水中判定
+    bool inWater = playerY < 9.0f; // 水中判定
 
     if (inWater) {
         // 酸素減少

@@ -109,7 +109,6 @@
     <ClCompile Include="OxygenGauge.cpp" />
     <ClCompile Include="scene\ResultScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
-    <ClCompile Include="Graph2D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="OxygenGauge.h" />
     <ClInclude Include="scene\ResultScene.h" />
     <ClInclude Include="scene\GameScene.h" />
-    <ClInclude Include="Graph2D.h" />
     <ClInclude Include="scene\IScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="scene\SceneManager.h" />
