@@ -9,6 +9,7 @@ GameScene::GameScene() {
 // デストラクタ
 GameScene::~GameScene() {
 	delete player_;
+	delete treasureManager_;
 	delete stage_;
 	delete graph_;
 	delete score_;
@@ -22,12 +23,19 @@ void GameScene::Initialize() {
 	// Audioインスタンスの取得
 	audio_ = Audio::GetInstance();
 
+	// ポーズフラグの初期化
+	isPosed_ = false;
+
 	// カメラの初期化
 	camera_.Initialize();
 
 	// プレイヤーの初期化
 	player_ = new Player();
 	player_->Initialize();
+
+	// 宝の初期化
+	treasureManager_ = new TreasureManager();
+	treasureManager_->Initialize();
 
 	// ステージの初期化
 	stage_ = new Stage();
@@ -48,26 +56,46 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	if (input_->TriggerKey(DIK_RETURN)) {
-		finished_ = true;
+
+	if (isPosed_ == true) {
+		if (input_->TriggerKey(DIK_ESCAPE)) {
+			isPosed_ = false;
+		}
+
+
+
+		return;
+	} 
+	else {
+		if (input_->TriggerKey(DIK_RETURN)) {
+			finished_ = true;
+		}
+
+		if (input_->TriggerKey(DIK_ESCAPE)) {
+			isPosed_ = true;
+		}
+
+		player_->Update();
+		stage_->Update();
+		graph_->Update();
+
+		treasureManager_->Update();
+		treasureManager_->CheckCollision(player_);
+
+		// エアメーターの更新
+		airMeter_->Update(player_->GetPosition());
+
+		static int currentScore = 0;
+		currentScore++;
+
+		if (player_->GetWorldTransform().translation_.y >= 10.0f) {
+			currentScore += treasureManager_->GetPendingScore();
+			treasureManager_->ClearPendingScore();
+		}
+
+		score_->SetNumber(currentScore);
+		score_->Update();
 	}
-
-	// プレイヤーの更新
-	player_->Update();
-
-	// ステージの更新
-	stage_->Update();
-
-	// グラフの更新
-	graph_->Update();
-
-	// エアメーターの更新
-	airMeter_->Update(player_->GetPosition());
-
-	// スコアの更新
-	static int currentScore = 0;
-	score_->SetNumber(currentScore);
-	score_->Update();
 }
 
 void GameScene::Draw() {
@@ -79,7 +107,7 @@ void GameScene::Draw() {
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
 	// ステージの描画
-	//stage_->Draw();
+	stage_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -94,6 +122,9 @@ void GameScene::Draw() {
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// 宝の描画
+	treasureManager_->Draw(&player_->GetCamera());
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
@@ -116,3 +147,5 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 #pragma endregion
 }
+
+

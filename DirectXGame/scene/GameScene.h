@@ -1,11 +1,14 @@
-#pragma once  
-#include "../Player.h"  
-#include "../Stage.h"  
-#include "../Graph2D.h"  
-#include "../Score.h"  
+#pragma once
+#include "../Player.h"
+#include "../TreasureManager.h"
+#include "../Stage.h"
+#include "../Graph2D.h"
+#include "../Score.h"
 #include "../AirMeter.h" 
-#include "IScene.h"  
-#include <KamataEngine.h>  
+
+#include "IScene.h"
+
+#include <KamataEngine.h>
 
 class GameScene : public IScene  
 {  
@@ -39,8 +42,11 @@ private:
 	// プレイヤー  
 	Player* player_ = nullptr;  
 
-	// ステージ  
-	Stage* stage_ = nullptr;  
+	// 宝
+	TreasureManager* treasureManager_ = nullptr;
+
+	// ステージ
+	Stage* stage_ = nullptr;
 
 	// グラフ  
 	Graph2D* graph_ = nullptr;  
@@ -48,9 +54,13 @@ private:
 	// スコア  
 	Score* score_ = nullptr;  
 
-	// 酸素ゲージ  
-	AirMeter* airMeter_ = nullptr;	  
+	// 終了フラグ
+	bool finished_ = false;
 
-	// 終了フラグ  
-	bool finished_ = false;  
+	// ポーズ画面
+	bool isPosed_ = false;
+
+	// 酸素ゲージ  
+	AirMeter* airMeter_ = nullptr;
+
 };
