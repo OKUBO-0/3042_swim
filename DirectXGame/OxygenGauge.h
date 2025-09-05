@@ -29,7 +29,7 @@ private:
     KamataEngine::Sprite* background_ = nullptr;  // 赤バー（背景）
     KamataEngine::Sprite* fill_ = nullptr;        // 青バー（酸素）
 
-    KamataEngine::Vector2 position_ = { 100.0f, 50.0f };
+    KamataEngine::Vector2 position_ = { 300.0f, 50.0f };
     KamataEngine::Vector2 size_ = { 200.0f, 20.0f };
 
     float maxOxygen_ = 100.0f;
