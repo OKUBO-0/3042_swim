@@ -21,11 +21,23 @@ void SceneManager::Update() {
 
 	currentScene_->Update();
 
+	// GameSceneでEscape押下時にタイトルに戻す
+	if (currentSceneName_ == SceneName::Game) {
+		auto gameScene = dynamic_cast<GameScene*>(currentScene_.get());
+		if (gameScene && gameScene->returnToTitle_) {
+			ChangeScene(SceneName::Title);
+			return;
+		}
+	}
+
 	if (currentScene_->IsFinished()) {
 		if (currentSceneName_ == SceneName::Title) {
 			ChangeScene(SceneName::Game);
 		}
 		else if (currentSceneName_ == SceneName::Game) {
+			TransferScoreToResult();
+		}
+		else if (currentSceneName_ == SceneName::Result) {
 			ChangeScene(SceneName::Title);
 		}
 	}
@@ -35,4 +47,21 @@ void SceneManager::Draw() {
 	if (currentScene_) {
 		currentScene_->Draw();
 	}
+}
+
+void SceneManager::TransferScoreToResult() {
+	// GameScene のスコアを取得
+	auto gameScene = dynamic_cast<GameScene*>(currentScene_.get());
+	if (!gameScene) return;
+
+	int score = gameScene->GetScore();
+
+	// ResultScene を生成してスコアをセット
+	auto resultSceneFunc = sceneFactory_[SceneName::Result];
+	currentScene_ = resultSceneFunc();
+	auto resultScene = dynamic_cast<ResultScene*>(currentScene_.get());
+	if (resultScene) resultScene->SetScore(score);
+
+	currentScene_->Initialize();
+	currentSceneName_ = SceneName::Result;
 }

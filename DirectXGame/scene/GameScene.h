@@ -1,8 +1,11 @@
 #pragma once
 #include "../Player.h"
+#include "../TreasureManager.h"
 #include "../Stage.h"
 #include "../Graph2D.h"
 #include "../Score.h"
+#include "../Timer.h"
+#include "../OxygenGauge.h"
 
 #include "IScene.h"
 
@@ -29,6 +32,10 @@ public:
 	// 終了フラグ
 	bool IsFinished() const { return finished_; }
 
+	int GetScore() const { return currentScore_; }
+
+	bool returnToTitle_ = false;
+
 private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;
@@ -40,6 +47,9 @@ private:
 	// プレイヤー
 	Player* player_ = nullptr;
 
+	// 宝
+	TreasureManager* treasureManager_ = nullptr;
+
 	// ステージ
 	Stage* stage_ = nullptr;
 
@@ -48,6 +58,13 @@ private:
 
 	// スコア
 	Score* score_ = nullptr;
+	int currentScore_ = 0;
+
+	// タイマー
+	Timer* timer_ = nullptr;
+
+	// 酸素ゲージ
+	OxygenGauge* oxygenGauge_ = nullptr;
 
 	// 終了フラグ
 	bool finished_ = false;

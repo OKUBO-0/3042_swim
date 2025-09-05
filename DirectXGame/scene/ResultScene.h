@@ -1,16 +1,18 @@
 #pragma once
+#include "../Score.h"
+
 #include "IScene.h"
 
 #include <KamataEngine.h>
 
-class TitleScene : public IScene
+class ResultScene : public IScene
 {
 public:
 	// コンストラクタ
-	TitleScene();
+	ResultScene();
 
 	// デストラクタ
-	~TitleScene();
+	~ResultScene();
 
 	// 初期化
 	void Initialize();
@@ -24,6 +26,8 @@ public:
 	// 終了フラグ
 	bool IsFinished() const { return finished_; }
 
+	void SetScore(int score);
+
 private:
 	KamataEngine::DirectXCommon* dxCommon_ = nullptr;
 	KamataEngine::Input* input_ = nullptr;
@@ -32,18 +36,9 @@ private:
 	// カメラ
 	KamataEngine::Camera camera_;
 
-	// 背景スプライト
-	uint32_t backgroundSpriteHandle_ = 0;
-	KamataEngine::Sprite* backgroundSprite_ = nullptr;
-
-	// タイトルスプライト
-	uint32_t titleSpriteHandle_ = 0;
-	KamataEngine::Sprite* titleSprite_ = nullptr;
-	float titleAlpha_ = 0.0f;
-
-	// タイトルUIスプライト
-	uint32_t titleUISpriteHandle_ = 0;
-	KamataEngine::Sprite* titleUISprite_ = nullptr;
+	// スコア
+	Score* scoreDisplay_ = nullptr;
+	int finalScore_ = 0;
 
 	// 終了フラグ
 	bool finished_ = false;

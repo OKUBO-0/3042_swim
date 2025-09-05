@@ -4,32 +4,23 @@
 class Player
 {
 public:
-	// コンストラクタ
-	Player();
+    Player();
+    ~Player();
 
-	// デストラクタ
-	~Player();
+    void Initialize();
+    void Update();
+    void Draw();
 
-	// 初期化
-	void Initialize();
-
-	// 更新
-	void Update();
-
-	// 描画
-	void Draw();
+    KamataEngine::Camera& GetCamera() { return camera_; }
+    const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
+    KamataEngine::Vector3 GetSize() const { return size_; } // 衝突判定用
 
 private:
-	// 入力インスタンス
-	KamataEngine::Input* input_ = nullptr;
-	// ワールドトランスフォーム
-	KamataEngine::WorldTransform worldTransform_;
+    KamataEngine::Input* input_ = nullptr;
+    KamataEngine::WorldTransform worldTransform_;
+    KamataEngine::Camera camera_;
+    KamataEngine::Model* playerModel_ = nullptr;
 
-	// カメラ
-	KamataEngine::Camera camera_;
-
-	// プレイヤーモデル
-	KamataEngine::Model* playerModel_ = nullptr;
-
-	float speed_ = 0.3f;
+    float speed_ = 0.3f;
+    KamataEngine::Vector3 size_ = { 1.0f, 2.0f, 1.0f };
 };
