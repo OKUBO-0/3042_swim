@@ -52,6 +52,7 @@ private:
 
 	// スコア
 	Score* score_ = nullptr;
+	int currentScore_ = 0;
 
 	// 終了フラグ
 	bool finished_ = false;

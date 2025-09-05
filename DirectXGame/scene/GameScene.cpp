@@ -45,7 +45,8 @@ void GameScene::Initialize() {
 	// スコアの初期化
 	score_ = new Score();
 	score_->Initialize();
-	score_->SetNumber(0);
+	currentScore_ = 0;
+	score_->SetNumber(currentScore_);
 }
 
 void GameScene::Update() {
@@ -60,14 +61,12 @@ void GameScene::Update() {
 	treasureManager_->Update();
 	treasureManager_->CheckCollision(player_);
 
-	static int currentScore = 0;
-
 	if (player_->GetWorldTransform().translation_.y >= 10.0f) {
-		currentScore += treasureManager_->GetPendingScore();
+		currentScore_ += treasureManager_->GetPendingScore();
 		treasureManager_->ClearPendingScore();
 	}
 
-	score_->SetNumber(currentScore);
+	score_->SetNumber(currentScore_);
 	score_->Update();
 }
 

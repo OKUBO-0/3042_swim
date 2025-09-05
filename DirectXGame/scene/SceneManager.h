@@ -7,6 +7,7 @@
 enum class SceneName {
 	Title,
 	Game,
+	Result,
 };
 
 class SceneManager {

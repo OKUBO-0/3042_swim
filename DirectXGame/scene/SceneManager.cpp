@@ -26,6 +26,9 @@ void SceneManager::Update() {
 			ChangeScene(SceneName::Game);
 		}
 		else if (currentSceneName_ == SceneName::Game) {
+			ChangeScene(SceneName::Result);
+		}
+		else if (currentSceneName_ == SceneName::Result) {
 			ChangeScene(SceneName::Title);
 		}
 	}
