@@ -58,18 +58,22 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
+	// ポーズ中の処理
 	if (isPosed_ == true) {
+		// ポーズ選択肢の決定
 		if (input_->TriggerKey(DIK_SPACE)) {
 			if (poseSelect_ == 0) {
 				poseSelect_ = 0;
 				// 再開
 				isPosed_ = false;
 			} 
+
 			else if (poseSelect_ == 1) {
 				poseSelect_ = 0;
 				// リトライ
 				Initialize();
 			} 
+
 			else if (poseSelect_ == 2) {
 				poseSelect_ = 0;
 				// タイトルへ戻る
@@ -77,6 +81,7 @@ void GameScene::Update() {
 			}
 		}
 
+		// ポーズ選択肢の変更
 		if (input_->TriggerKey(DIK_W)) {
 			poseSelect_--;
 		}
@@ -85,21 +90,25 @@ void GameScene::Update() {
 			poseSelect_++;
 		}
 
+		// ポーズ選択肢の範囲制限
 		if (poseSelect_ < 0) {
 			poseSelect_ = 0;
 		} 
 		else if (poseSelect_ > 2) {
 			poseSelect_ = 2;
 		}
-
+		
+		// ポーズUIの更新
 		pose_->Update(poseSelect_);
 	} 
+	// ポーズ中でないときの処理
 	else 
 	{
 		if (input_->TriggerKey(DIK_RETURN)) {
 			finished_ = true;
 		}
 
+		// ポーズの開始
 		if (input_->TriggerKey(DIK_ESCAPE)) {
 			isPosed_ = true;
 		}
