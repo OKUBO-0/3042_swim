@@ -25,6 +25,7 @@ public:
     KamataEngine::Camera& GetCamera() { return camera_; }                      // カメラ参照取得
     const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; } // ワールド変換取得
     KamataEngine::Vector3 GetSize() const { return size_; }                    // 衝突判定用サイズ取得
+    KamataEngine::Vector3 GetPosition() const { return worldTransform_.translation_; } // 位置取得
 
 private:
     // ==============================

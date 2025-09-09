@@ -66,7 +66,7 @@ void GameScene::Update() {
     player_->Update();
 
     // ----- ステージ更新 -----
-    stage_->Update();
+    stage_->Update(player_->GetPosition().y);
 
     // ----- 宝物の更新 & 当たり判定 -----
     treasureManager_->Update();
@@ -125,7 +125,8 @@ void GameScene::Draw() {
     // ----- 背景スプライト描画 -----
 #pragma region 背景スプライト描画
     Sprite::PreDraw(dxCommon->GetCommandList());
-    stage_->Draw();
+   
+
     Sprite::PostDraw();
 
     // 深度バッファクリア
@@ -137,6 +138,8 @@ void GameScene::Draw() {
     Model::PreDraw(dxCommon->GetCommandList());
     player_->Draw();
     treasureManager_->Draw(&player_->GetCamera());
+
+    stage_->Draw(player_->GetCamera());
     Model::PostDraw();
 #pragma endregion
 
