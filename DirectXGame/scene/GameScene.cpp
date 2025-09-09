@@ -25,6 +25,9 @@ void GameScene::Initialize() {
     input_ = Input::GetInstance();
     audio_ = Audio::GetInstance();
 
+    // ----- オーディオ -----
+    scoreSEHandle_ = audio_->LoadWave("Sounds/score_se.wav"); // SEファイル名
+
     // ----- カメラ初期化 -----
     camera_.Initialize();
 
@@ -71,8 +74,18 @@ void GameScene::Update() {
 
     // ----- 宝物を取得したらスコア加算 -----
     if (player_->GetWorldTransform().translation_.y >= 10.0f) {
-        currentScore_ += treasureManager_->GetPendingScore();
-        treasureManager_->ClearPendingScore();
+        int pending = treasureManager_->GetPendingScore();
+        if (pending > 0) {
+            currentScore_ += pending;
+            treasureManager_->ClearPendingScore();
+
+            // 前回スコアと比較して増えたらSE再生
+            if (currentScore_ > previousScore_) {
+                audio_->PlayWave(scoreSEHandle_);
+            }
+
+            previousScore_ = currentScore_; // スコア更新
+        }
     }
 
     // ----- スコア更新 -----

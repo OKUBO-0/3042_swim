@@ -36,6 +36,9 @@ public:
     void ClearPendingScore() { pendingScore_ = 0; }       // 未取得スコアクリア
 
 private:
+    KamataEngine::Audio* audio_ = nullptr;
+    uint32_t collectSEHandle_ = 0; // 宝物取得時のSE
+
     std::vector<Treasure*> treasures_;   // 宝物リスト
     int pendingScore_ = 0;               // プレイヤーが取得した未反映スコア
 };

@@ -19,22 +19,22 @@ void Treasure::Initialize(TreasureType type) {
     // ワールドトランスフォーム初期化
     worldTransform_.Initialize();
 
-    // モデル読み込み（ここでは cube を使用）
-    treasureModel_ = Model::CreateFromOBJ("cube");
-
     // 宝物の種類に応じて位置とスコアを設定
     switch (type_) {
     case TreasureType::Shallow:
+        treasureModel_ = Model::CreateFromOBJ("bottle");
         worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), 5.0f, 0.0f };
         score_ = 10;
         break;
 
     case TreasureType::Middle:
+        treasureModel_ = Model::CreateFromOBJ("coin");
         worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -10.0f, 0.0f };
         score_ = 30;
         break;
 
     case TreasureType::Deep:
+        treasureModel_ = Model::CreateFromOBJ("chest");
         worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -25.0f, 0.0f };
         score_ = 50;
         break;
@@ -48,6 +48,11 @@ void Treasure::Initialize(TreasureType type) {
 // 更新
 // ==============================
 void Treasure::Update() {
+    // Middle（中層）の宝物だけ回転
+    if (type_ == TreasureType::Middle) {
+        worldTransform_.rotation_.y += 0.05f;
+    }
+
     // ワールド行列更新
     worldTransform_.UpdateMatrix();
 }

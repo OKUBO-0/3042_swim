@@ -21,7 +21,7 @@ void Player::Initialize() {
     camera_.Initialize();
 
     // プレイヤーモデル読み込み
-    playerModel_ = Model::CreateFromOBJ("octopus");
+    playerModel_ = Model::CreateFromOBJ("whale");
 
     // ワールドトランスフォーム初期化
     worldTransform_.Initialize();

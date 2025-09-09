@@ -16,6 +16,9 @@ TreasureManager::~TreasureManager() {
 // 初期化
 // ==============================
 void TreasureManager::Initialize() {
+    audio_ = Audio::GetInstance();
+    collectSEHandle_ = audio_->LoadWave("Sounds/collect_se.wav"); // SEファイル名
+
     // 浅瀬の宝物 5 個
     for (int i = 0; i < 5; ++i) {
         Treasure* t = new Treasure();
@@ -76,6 +79,7 @@ void TreasureManager::CheckCollision(const Player* player) {
             if (collisionX && collisionY && collisionZ) {
                 t->Collect();                     // 宝物取得
                 pendingScore_ += t->GetScore();   // スコア加算
+                audio_->PlayWave(collectSEHandle_);
             }
         }
     }
