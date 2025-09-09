@@ -8,6 +8,10 @@ GameScene::GameScene() {
 
 // デストラクタ
 GameScene::~GameScene() {
+	delete poseBGSprite_;
+	delete gameSprite_;
+	delete retrySprite_;
+	delete titlePoseSprite_;
 	delete player_;
 	delete treasureManager_;
 	delete stage_;
@@ -22,9 +26,6 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	// Audioインスタンスの取得
 	audio_ = Audio::GetInstance();
-
-	// ポーズフラグの初期化
-	isPosed_ = false;
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -49,20 +50,63 @@ void GameScene::Initialize() {
 	score_ = new Score();
 	score_->Initialize();
 	score_->SetNumber(0);
+
+	//ポーズUI
+	poseHandle_ = TextureManager::Load("Pose/PoseBG.png");
+	poseBGSprite_ = Sprite::Create(poseHandle_, {320, 180});
+	poseBGSprite_->SetSize(Vector2(1280, 720));
+	gameHandle_ = TextureManager::Load("Pose/PoseGameStart.png");
+	gameSprite_ = Sprite::Create(gameHandle_, {360, 200});
+	gameSprite_->SetSize(Vector2(1280, 720));
+	retryHandle_ = TextureManager::Load("Pose/PoseRetry.png");
+	retrySprite_ = Sprite::Create(retryHandle_, {360, 300});
+	retrySprite_->SetSize(Vector2(1280, 720));
+	titlePoseHandle_ = TextureManager::Load("Pose/PoseTitle.png");
+	titlePoseSprite_ = Sprite::Create(titlePoseHandle_, {360, 400});
+	titlePoseSprite_->SetSize(Vector2(1280, 720));
+	// ポーズフラグの初期化
+	isPosed_ = false;
+
 }
 
 void GameScene::Update() {
 
 	if (isPosed_ == true) {
-		if (input_->TriggerKey(DIK_ESCAPE)) {
-			isPosed_ = false;
+		if (input_->TriggerKey(DIK_SPACE)) {
+			if (poseSelect_ == 0) {
+				poseSelect_ = 0;
+				// 再開
+				isPosed_ = false;
+			} 
+			else if (poseSelect_ == 1) {
+				poseSelect_ = 0;
+				// リトライ
+				//Initialize();
+			} 
+			else if (poseSelect_ == 2) {
+				poseSelect_ = 0;
+				// タイトルへ戻る
+				finished_ = true;
+			}
 		}
 
+		if (input_->TriggerKey(DIK_W)) {
+			poseSelect_++;
+		}
 
+		if (input_->TriggerKey(DIK_S)) {
+			poseSelect_--;
+		}
 
-		return;
+		if (poseSelect_ < 0) {
+			poseSelect_ = 0;
+		} 
+		else if (poseSelect_ > 2) {
+			poseSelect_ = 2;
+		}
 	} 
-	else {
+	else 
+	{
 		if (input_->TriggerKey(DIK_RETURN)) {
 			finished_ = true;
 		}
@@ -132,7 +176,12 @@ void GameScene::Draw() {
 
 	// スコアの描画
 	score_->Draw();
-
+	if (isPosed_ == true) {
+		poseBGSprite_->Draw();
+		retrySprite_->Draw();
+		titlePoseSprite_->Draw();
+		gameSprite_->Draw();
+	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion

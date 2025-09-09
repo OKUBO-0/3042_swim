@@ -58,5 +58,19 @@ private:
 
 	// ポーズ画面
 	bool isPosed_ = false;
+	int poseSelect_ = 0;
+
+	//背景
+	uint32_t poseHandle_ = 0;
+	KamataEngine::Sprite* poseBGSprite_ = nullptr;
+	//リトライ
+	uint32_t retryHandle_ = 0;
+	KamataEngine::Sprite* retrySprite_ = nullptr;
+	// タイトル
+	uint32_t titlePoseHandle_ = 0;
+	KamataEngine::Sprite* titlePoseSprite_ = nullptr;
+	// ゲーム画面
+	uint32_t gameHandle_ = 0;
+	KamataEngine::Sprite* gameSprite_ = nullptr;
 
 };
