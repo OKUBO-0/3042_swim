@@ -4,7 +4,7 @@
 #include "../Stage.h"
 #include "../Graph2D.h"
 #include "../Score.h"
-
+#include "../Pose.h"
 #include "IScene.h"
 
 #include <KamataEngine.h>
@@ -59,6 +59,7 @@ private:
 	// ポーズ画面
 	bool isPosed_ = false;
 	int poseSelect_ = 0;
+	Pose* pose_ = nullptr;
 
 	//背景
 	uint32_t poseHandle_ = 0;

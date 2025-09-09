@@ -8,10 +8,6 @@ GameScene::GameScene() {
 
 // デストラクタ
 GameScene::~GameScene() {
-	delete poseBGSprite_;
-	delete gameSprite_;
-	delete retrySprite_;
-	delete titlePoseSprite_;
 	delete player_;
 	delete treasureManager_;
 	delete stage_;
@@ -52,20 +48,11 @@ void GameScene::Initialize() {
 	score_->SetNumber(0);
 
 	//ポーズUI
-	poseHandle_ = TextureManager::Load("Pose/PoseBG.png");
-	poseBGSprite_ = Sprite::Create(poseHandle_, {320, 180});
-	poseBGSprite_->SetSize(Vector2(1280, 720));
-	gameHandle_ = TextureManager::Load("Pose/PoseGameStart.png");
-	gameSprite_ = Sprite::Create(gameHandle_, {360, 200});
-	gameSprite_->SetSize(Vector2(1280, 720));
-	retryHandle_ = TextureManager::Load("Pose/PoseRetry.png");
-	retrySprite_ = Sprite::Create(retryHandle_, {360, 300});
-	retrySprite_->SetSize(Vector2(1280, 720));
-	titlePoseHandle_ = TextureManager::Load("Pose/PoseTitle.png");
-	titlePoseSprite_ = Sprite::Create(titlePoseHandle_, {360, 400});
-	titlePoseSprite_->SetSize(Vector2(1280, 720));
+	pose_ = new Pose();
+	pose_->Initialize();
 	// ポーズフラグの初期化
 	isPosed_ = false;
+	poseSelect_ = 0;
 
 }
 
@@ -81,7 +68,7 @@ void GameScene::Update() {
 			else if (poseSelect_ == 1) {
 				poseSelect_ = 0;
 				// リトライ
-				//Initialize();
+				Initialize();
 			} 
 			else if (poseSelect_ == 2) {
 				poseSelect_ = 0;
@@ -91,11 +78,11 @@ void GameScene::Update() {
 		}
 
 		if (input_->TriggerKey(DIK_W)) {
-			poseSelect_++;
+			poseSelect_--;
 		}
 
 		if (input_->TriggerKey(DIK_S)) {
-			poseSelect_--;
+			poseSelect_++;
 		}
 
 		if (poseSelect_ < 0) {
@@ -104,6 +91,8 @@ void GameScene::Update() {
 		else if (poseSelect_ > 2) {
 			poseSelect_ = 2;
 		}
+
+		pose_->Update(poseSelect_);
 	} 
 	else 
 	{
@@ -177,10 +166,7 @@ void GameScene::Draw() {
 	// スコアの描画
 	score_->Draw();
 	if (isPosed_ == true) {
-		poseBGSprite_->Draw();
-		retrySprite_->Draw();
-		titlePoseSprite_->Draw();
-		gameSprite_->Draw();
+		pose_->Draw();
 	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
