@@ -28,6 +28,16 @@ public:
     // ==============================
     void SetNumber(int number); // 表示する数値をセット
 
+    // ==============================
+    // スコア全体の表示位置を設定
+    // ==============================
+    void SetPosition(const KamataEngine::Vector2& pos);
+
+    // ==============================
+    // スコア全体のスケールを設定
+    // ==============================
+    void SetScale(float scale);
+
 private:
     // ==============================
     // 定数
@@ -38,6 +48,8 @@ private:
     // メンバ変数
     // ==============================
     std::array<KamataEngine::Sprite*, kDigitCount> sprite_{}; // スコア表示用スプライト
-    uint32_t textureHandle_ = 0;                               // 数字画像のテクスチャハンドル
+    uint32_t textureHandle_ = 0;                              // 数字画像のテクスチャハンドル
     KamataEngine::Vector2 size_ = { 32.0f, 64.0f };           // 各桁のスプライトサイズ
+	KamataEngine::Vector2 basePosition_ = {800.0f, 10.0f};     // スコア全体の基準位置
+	float scale_ = 1.0f;                                      // スコア全体のスケール
 };

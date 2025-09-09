@@ -23,7 +23,7 @@ void Timer::Initialize() {
 
     // スプライト生成（横に並べる）
     for (int i = 0; i < kDigitCount; ++i) {
-        sprite_[i] = Sprite::Create(textureHandle_, { 608.0f + size_.x * i, 5.0f });
+        sprite_[i] = Sprite::Create(textureHandle_, { 608.0f + size_.x * i, 10.0f });
         sprite_[i]->SetSize(size_);
         sprite_[i]->SetTextureRect({ 0.0f, 0.0f }, size_);
     }

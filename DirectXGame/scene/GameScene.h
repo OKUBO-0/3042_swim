@@ -59,7 +59,7 @@ private:
     Stage* stage_ = nullptr;                          // ステージ
     Score* score_ = nullptr;                          // スコア表示
     Timer* timer_ = nullptr;                          // 制限時間タイマー
-    OxygenGauge* oxygenGauge_ = nullptr;             // 酸素ゲージ
+    OxygenGauge* oxygenGauge_ = nullptr;              // 酸素ゲージ
 
     // ==============================
     // スコア・状態管理

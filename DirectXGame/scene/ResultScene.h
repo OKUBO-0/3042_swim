@@ -50,6 +50,18 @@ private:
     int finalScore_ = 0;             // 最終スコア
 
     // ==============================
+   // 背景スプライト
+   // ==============================
+    uint32_t backgroundSpriteHandle_ = 0;
+    KamataEngine::Sprite* backgroundSprite_ = nullptr;
+
+    // ==============================
+    // UIスプライト
+    // ==============================
+    uint32_t resultUISpriteHandle_ = 0;
+    KamataEngine::Sprite* resultUISprite_ = nullptr;
+
+    // ==============================
     // シーン状態
     // ==============================
     bool finished_ = false;          // 終了フラグ

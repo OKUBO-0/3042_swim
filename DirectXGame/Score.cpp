@@ -23,7 +23,7 @@ void Score::Initialize() {
 
     // スプライトの生成（横に並べる）
     for (int i = 0; i < kDigitCount; ++i) {
-        sprite_[i] = Sprite::Create(textureHandle_, { 800.0f + size_.x * i, 5.0f });
+        sprite_[i] = Sprite::Create(textureHandle_, { basePosition_.x + size_.x * i, basePosition_.y });
         sprite_[i]->SetSize(size_);
         sprite_[i]->SetTextureRect({ 0.0f, 0.0f }, size_);
     }
@@ -65,5 +65,30 @@ void Score::SetNumber(int number) {
         sprite_[i]->SetTextureRect({ size_.x * nowNumber, 0.0f }, size_);
         number %= digit;
         digit /= 10;
+    }
+}
+
+// ==============================================
+// スコア全体の表示位置を設定
+// ==============================================
+void Score::SetPosition(const Vector2& pos) {
+    basePosition_ = pos;
+
+    // 各桁のスプライト座標を更新
+    for (int i = 0; i < kDigitCount; ++i) {
+        sprite_[i]->SetPosition({ basePosition_.x + (size_.x * scale_ * i), basePosition_.y });
+    }
+}
+
+// ==============================================
+// スコア全体のスケールを設定
+// ==============================================
+void Score::SetScale(float scale) {
+    scale_ = scale;
+
+    // 各桁のスプライトのサイズと位置を更新
+    for (int i = 0; i < kDigitCount; ++i) {
+        sprite_[i]->SetSize({ size_.x * scale_, size_.y * scale_ });
+        sprite_[i]->SetPosition({ basePosition_.x + (size_.x * scale_ * i), basePosition_.y });
     }
 }

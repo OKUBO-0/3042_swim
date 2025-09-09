@@ -36,7 +36,7 @@ void TitleScene::Initialize() {
     titleSprite_->SetSize(Vector2(1280, 720));
 
     // ----- タイトルUIスプライト初期化 -----
-    titleUISpriteHandle_ = TextureManager::Load("titleUI.png");
+    titleUISpriteHandle_ = TextureManager::Load("EnterUI.png");
     titleUISprite_ = Sprite::Create(titleUISpriteHandle_, { 0.0f, 0.0f });
     titleUISprite_->SetSize(Vector2(1280, 720));
     titleUISprite_->SetColor({ 1, 1, 1, 0 }); // 初期透明

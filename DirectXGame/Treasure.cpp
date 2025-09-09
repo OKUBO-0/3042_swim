@@ -41,7 +41,7 @@ void Treasure::Initialize(TreasureType type) {
     }
 
     // 衝突判定用サイズ
-    size_ = { 1.0f, 1.0f, 1.0f };
+    size_ = { 2.0f, 2.0f, 2.0f };
 }
 
 // ==============================

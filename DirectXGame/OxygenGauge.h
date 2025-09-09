@@ -37,8 +37,8 @@ private:
     // ==============================
     // 表示位置とサイズ
     // ==============================
-    KamataEngine::Vector2 position_ = { 300.0f, 50.0f };
-    KamataEngine::Vector2 size_ = { 200.0f, 20.0f };
+    KamataEngine::Vector2 position_ = { 300.0f, 25.0f };
+    KamataEngine::Vector2 size_ = { 200.0f, 30.0f };
 
     // ==============================
     // 酸素量
