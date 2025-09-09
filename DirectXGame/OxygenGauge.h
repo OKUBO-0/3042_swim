@@ -49,6 +49,6 @@ private:
     // ==============================
     // 酸素変化速度
     // ==============================
-    float decreaseSpeed_ = 20.0f;    // 水中での1秒あたり減少量
-    float recoverySpeed_ = 10.0f;    // 水上での1秒あたり回復量
+    float decreaseSpeed_ = 5.0f;    // 水中での1秒あたり減少量
+    float recoverySpeed_ = 20.0f;    // 水上での1秒あたり回復量
 };

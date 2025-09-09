@@ -47,7 +47,7 @@ void Player::Update() {
     }
     if (input_->PushKey(DIK_S)) {
         worldTransform_.translation_.y -= speed_;
-        if (worldTransform_.translation_.y < -30.0f) worldTransform_.translation_.y = -30.0f;
+        if (worldTransform_.translation_.y < -50.0f) worldTransform_.translation_.y = -50.0f;
     }
     if (input_->PushKey(DIK_A)) {
         worldTransform_.translation_.x -= speed_;
@@ -93,7 +93,7 @@ void Player::Update() {
     // カメラ Y 追従
     // -----------------------------
     if (worldTransform_.translation_.y <= 0.0f &&
-        worldTransform_.translation_.y >= -30.0f)
+        worldTransform_.translation_.y >= -35.0f)
     {
         camera_.translation_.y = worldTransform_.translation_.y;
         camera_.UpdateMatrix();

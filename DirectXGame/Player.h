@@ -38,7 +38,7 @@ private:
     // ==============================
     KamataEngine::WorldTransform worldTransform_;  // プレイヤーのワールド変換
     KamataEngine::Camera camera_;                  // プレイヤーカメラ
-    float speed_ = 0.3f;                           // 移動速度
+    float speed_ = 0.2f;                           // 移動速度
     float rotationSpeed_ = 0.1f;                   // 回転速度
     KamataEngine::Vector3 size_ = { 1.0f, 2.0f, 1.0f }; // 衝突判定用サイズ
 };
