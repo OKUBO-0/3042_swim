@@ -62,9 +62,18 @@ private:
     uint32_t resultUISpriteHandle_ = 0;
     KamataEngine::Sprite* resultUISprite_ = nullptr;
 
+    // ==============================
+    // トータルスコア
+	// ==============================
+	uint32_t totalScoreUIHandle_ = 0;
+	KamataEngine::Sprite* totalScoreUISprite_ = nullptr;
+
     // フェード
     Fade fade_;
     bool fadeOutStarted_ = false;
+
+    // リザルト音
+	uint32_t resultSEHandle_ = 0; // リザルトSE
 
     // ==============================
     // シーン状態

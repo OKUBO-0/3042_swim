@@ -58,6 +58,9 @@ private:
     uint32_t titleUISpriteHandle_ = 0;
     KamataEngine::Sprite* titleUISprite_ = nullptr;
 
+    // タイトルBGM
+    uint32_t titleBGMHandle_ = 0;
+
     // フェード
     Fade fade_;
     bool fadeOutStarted_ = false;

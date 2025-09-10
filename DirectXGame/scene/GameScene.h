@@ -71,11 +71,14 @@ private:
     // ==============================
     // オーディオ
     // ==============================
-    uint32_t scoreSEHandle_ = 0; // 宝物取得時のSE
+    uint32_t scoreSEHandle_ = 0;
 
     // UI
 	uint32_t UIHandle_ = 0; // UI
 	KamataEngine::Sprite* UISprite_ = nullptr;
+
+    // bgm
+    uint32_t BGMHandle_ = 0; // 宝物取得時のSE
 
     // ==============================
     // スコア・状態管理

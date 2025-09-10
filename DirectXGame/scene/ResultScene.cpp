@@ -22,13 +22,17 @@ void ResultScene::Initialize() {
     input_ = Input::GetInstance();
     audio_ = Audio::GetInstance();
 
+    // ----- オーディオ -----
+    resultSEHandle_ = audio_->LoadWave("Sounds/result.wav"); // BGMファイル名
+    resultSEHandle_ = audio_->PlayWave(resultSEHandle_);
+
     // ----- カメラ初期化 -----
     camera_.Initialize();
 
     // ----- スコア表示初期化 -----
     scoreDisplay_ = new Score();
     scoreDisplay_->Initialize();
-    scoreDisplay_->SetPosition({ 500.0f, 250.0f });
+    scoreDisplay_->SetPosition({ 450.0f, 300.0f });
     scoreDisplay_->SetScale(2.0f);
     scoreDisplay_->SetNumber(finalScore_);
 
@@ -41,6 +45,11 @@ void ResultScene::Initialize() {
 	resultUISpriteHandle_ = TextureManager::Load("EnterUI.png");
 	resultUISprite_ = Sprite::Create(resultUISpriteHandle_, {0.0f, 0.0f});
 	resultUISprite_->SetSize(Vector2(1280, 720));
+
+    // トータルスコアUI
+	totalScoreUIHandle_ = TextureManager::Load("TotalScore.png");
+	totalScoreUISprite_ = Sprite::Create(totalScoreUIHandle_, {0.0f, 0.0f});
+	totalScoreUISprite_->SetSize(Vector2(1280, 720));
 
     // フェードの初期化
     fade_.Initialize();
@@ -96,6 +105,9 @@ void ResultScene::Draw() {
 
 #pragma region 前景スプライト描画
     Sprite::PreDraw(dxCommon->GetCommandList());
+
+    // トータルスコアUI描画
+	totalScoreUISprite_->Draw();
 
     // リザルトUI描画
     resultUISprite_->Draw();

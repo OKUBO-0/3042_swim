@@ -22,6 +22,9 @@ void TitleScene::Initialize() {
     input_ = Input::GetInstance();
     audio_ = Audio::GetInstance();
 
+    // ----- オーディオ -----
+	titleBGMHandle_ = audio_->LoadWave("Sounds/title.wav"); // BGMファイル名
+
     // ----- カメラ初期化 -----
     camera_.Initialize();
 
@@ -53,6 +56,11 @@ void TitleScene::Update() {
     // フェードの更新
     fade_.Update();
 
+    // タイトルBGM再生
+    if (!audio_->IsPlaying(titleBGMHandle_)) {
+        titleBGMHandle_ = audio_->PlayWave(titleBGMHandle_, true, 1.0f);
+    }
+
     // ----- Enterキーでシーン終了 -----
     if (input_->TriggerKey(DIK_RETURN) && fade_.GetState() == Fade::State::Stay) {
         fade_.StartFadeOut();
@@ -61,6 +69,7 @@ void TitleScene::Update() {
 
     // フェードアウト完了でシーン終了
     if (fadeOutStarted_ && fade_.IsFinished()) {
+		audio_->StopWave(titleBGMHandle_);
         finished_ = true;
     }
 

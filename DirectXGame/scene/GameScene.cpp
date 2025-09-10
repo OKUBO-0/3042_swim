@@ -28,6 +28,7 @@ void GameScene::Initialize() {
 
     // ----- オーディオ -----
     scoreSEHandle_ = audio_->LoadWave("Sounds/score_se.wav"); // SEファイル名
+    BGMHandle_ = audio_->LoadWave("Sounds/bgm.wav"); // SEファイル名
 
     // ----- カメラ初期化 -----
     camera_.Initialize();
@@ -75,6 +76,10 @@ void GameScene::Initialize() {
 // 更新処理
 // ==============================
 void GameScene::Update() {
+    if (!audio_->IsPlaying(BGMHandle_)) {
+        BGMHandle_ = audio_->PlayWave(BGMHandle_, true, 0.3f);
+    }
+
     if (pose_->IsPosed()) {
         pose_->Update();
 
@@ -84,9 +89,11 @@ void GameScene::Update() {
             pose_->Reset();
             break;
         case Pose::Action::Retry:
+            audio_->StopWave(BGMHandle_);
             Initialize();
             break;
         case Pose::Action::Title:
+            audio_->StopWave(BGMHandle_);
 			returnToTitle_ = true;
             finished_ = true;
             break;
@@ -96,6 +103,26 @@ void GameScene::Update() {
     }
     else {
         if (input_->TriggerKey(DIK_ESCAPE)) pose_->Activate();
+
+        // フェードの更新
+        fade_.Update();
+
+        // ----- ゲーム終了判定 -----
+        if (timer_->IsTimeUp() && fade_.GetState() == Fade::State::Stay) {
+            fade_.StartFadeOut();
+            fadeOutStarted_ = true;
+        }
+
+        if (oxygenGauge_->IsEmpty() && fade_.GetState() == Fade::State::Stay) {
+            fade_.StartFadeOut();
+            fadeOutStarted_ = true;
+        }
+
+        // フェードアウト完了でシーン終了
+        if (fadeOutStarted_ && fade_.IsFinished()) {
+            audio_->StopWave(BGMHandle_);
+            finished_ = true;
+        }
 
         // ----- プレイヤー更新 -----
         player_->Update();
@@ -133,25 +160,6 @@ void GameScene::Update() {
 
         // ----- 酸素ゲージ更新 -----
         oxygenGauge_->Update(player_->GetWorldTransform().translation_.y, deltaTime);
-
-        // フェードの更新
-        fade_.Update();
-
-        // ----- ゲーム終了判定 -----
-        if (timer_->IsTimeUp() && fade_.GetState() == Fade::State::Stay) {
-            fade_.StartFadeOut();
-            fadeOutStarted_ = true;
-        }
-
-        if (oxygenGauge_->IsEmpty() && fade_.GetState() == Fade::State::Stay) {
-            fade_.StartFadeOut();
-            fadeOutStarted_ = true;
-        }
-
-        // フェードアウト完了でシーン終了
-        if (fadeOutStarted_ && fade_.IsFinished()) {
-            finished_ = true;
-        }
     }
 }
 

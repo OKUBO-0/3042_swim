@@ -58,7 +58,7 @@ void Pose::Update() {
     if (poseSelect_ > 2) poseSelect_ = 2;
 
     // 決定
-    if (input_->TriggerKey(DIK_SPACE)) {
+    if (input_->TriggerKey(DIK_RETURN)) {
         switch (poseSelect_) {
         case 0: selectedAction_ = Action::Resume; break;
         case 1: selectedAction_ = Action::Retry; break;
