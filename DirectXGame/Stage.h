@@ -16,16 +16,9 @@ public:
 	void Update();
 
 	// 描画
-	void Draw();
+	void Draw(KamataEngine::Camera* camera);
 
 private:
-	uint32_t backgroundHandle_;
-	uint32_t inversionHandle_;
-	KamataEngine::Sprite* background1_ = nullptr;
-	KamataEngine::Sprite* background2_ = nullptr;
-
-	KamataEngine::Vector2 position1_;
-	KamataEngine::Vector2 position2_;
-
-	const float scrollSpeed_ = 2.0f;
+	KamataEngine::WorldTransform worldTransform_; // ワールド変換
+	KamataEngine::Model* stageModel_ = nullptr; // ステージモデル
 };

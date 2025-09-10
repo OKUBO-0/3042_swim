@@ -23,20 +23,28 @@ void Treasure::Initialize(TreasureType type) {
     switch (type_) {
     case TreasureType::Shallow:
         treasureModel_ = Model::CreateFromOBJ("bottle");
-        worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), 0.0f, 0.0f };
+        worldTransform_.translation_ = {
+            static_cast<float>(rand() % 61 - 30),      // X: -30 ~ 30
+            static_cast<float>(-(rand() % 16)),        // Y: 0 ~ -20
+            0.0f
+        };
         score_ = 10;
         break;
 
     case TreasureType::Middle:
         treasureModel_ = Model::CreateFromOBJ("coin");
-        worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -40.0f, 0.0f };
+        worldTransform_.translation_ = {
+           static_cast<float>(rand() % 61 - 30),          // X: -30 ~ 30
+           static_cast<float>(-(rand() % 16 + 25)),       // Y: -25 ~ -40
+           0.0f
+        };
         score_ = 30;
         break;
 
     case TreasureType::Deep:
         treasureModel_ = Model::CreateFromOBJ("chest");
         worldTransform_.translation_ = { static_cast<float>(rand() % 61 - 30), -50.0f, 0.0f };
-        score_ = 50;
+        score_ = 100;
         break;
     }
 

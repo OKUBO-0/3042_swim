@@ -35,6 +35,7 @@ public:
     void Collect() { collected_ = true; }           // 取得
     bool IsCollected() const { return collected_; } // 取得済み判定
     int GetScore() const { return score_; }         // スコア取得
+    TreasureType GetType() const { return type_; }
 
     // ==============================
     // 衝突判定用

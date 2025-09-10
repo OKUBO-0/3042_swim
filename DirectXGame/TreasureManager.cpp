@@ -66,7 +66,8 @@ void TreasureManager::CheckCollision(const Player* player) {
     Vector3 playerPos = player->GetWorldTransform().translation_;
     Vector3 playerSize = player->GetSize();
 
-    for (auto t : treasures_) {
+    for (size_t i = 0; i < treasures_.size(); ++i) {
+        Treasure* t = treasures_[i];
         if (!t->IsCollected()) {
             Vector3 treasurePos = t->GetWorldTransform().translation_;
             Vector3 treasureSize = t->GetSize();
@@ -79,7 +80,18 @@ void TreasureManager::CheckCollision(const Player* player) {
             if (collisionX && collisionY && collisionZ) {
                 t->Collect();                     // 宝物取得
                 pendingScore_ += t->GetScore();   // スコア加算
-                audio_->PlayWave(collectSEHandle_);
+
+                // 新しい宝物を同じ種類で生成
+                Treasure* newTreasure = new Treasure();
+                newTreasure->Initialize(t->GetScore() == 10 ? TreasureType::Shallow :
+                    t->GetScore() == 30 ? TreasureType::Middle :
+                    TreasureType::Deep);
+                treasures_.push_back(newTreasure);
+
+                // SE再生
+                if (audio_ && collectSEHandle_ != 0) {
+                    audio_->PlayWave(collectSEHandle_);
+                }
             }
         }
     }

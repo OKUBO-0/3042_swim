@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Score.h"
+#include "../Fade.h"
 #include "IScene.h"
 #include <KamataEngine.h>
 
@@ -60,6 +61,10 @@ private:
     // ==============================
     uint32_t resultUISpriteHandle_ = 0;
     KamataEngine::Sprite* resultUISprite_ = nullptr;
+
+    // フェード
+    Fade fade_;
+    bool fadeOutStarted_ = false;
 
     // ==============================
     // シーン状態

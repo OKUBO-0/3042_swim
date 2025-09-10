@@ -5,53 +5,25 @@ using namespace KamataEngine;
 Stage::Stage() {
 }
 
-Stage::~Stage() {
-	delete background1_;
-	delete background2_;
-}
+Stage::~Stage() { delete stageModel_; }
 
 void Stage::Initialize() {
-	// テクスチャ読み込み
-	backgroundHandle_ = TextureManager::Load("black1x1.png");
-	inversionHandle_ = TextureManager::Load("black1x1.png");
-
-	// スプライト生成（2枚）
-	background1_ = Sprite::Create(backgroundHandle_, { 0.0f, 0.0f });
-	background2_ = Sprite::Create(inversionHandle_, { 1280.0f, 0.0f });
-
-	// サイズ指定
-	background1_->SetSize({ 1280, 720 });
-	background2_->SetSize({ 1280, 720 });
-
-	// 初期位置
-	position1_ = { 0.0f, 0.0f };
-	position2_ = { 1280.0f, 0.0f };
+	// ステージモデル読み込み
+	stageModel_ = Model::CreateFromOBJ("stage");
+	// ワールドトランスフォーム初期化
+	worldTransform_.Initialize();
+	worldTransform_.translation_ = {0.0f, 0.0f, 0.0f}; // 初期位置
 }
 
-void Stage::Update() {
-	// 左にスクロール
-	position1_.x -= scrollSpeed_;
-	position2_.x -= scrollSpeed_;
+void Stage::Update() { worldTransform_.UpdateMatrix(); }
 
-	// 1枚目が左端を超えたら右に移動
-	if (position1_.x <= -1280.0f) {
-		position1_.x = position2_.x + 1280.0f;
-	}
-	if (position2_.x <= -1280.0f) {
-		position2_.x = position1_.x + 1280.0f;
-	}
-
-	// 位置反映
-	background1_->SetPosition(position1_);
-	background2_->SetPosition(position2_);
-}
-
-void Stage::Draw() {
+void Stage::Draw(Camera* camera) {
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-	Sprite::PreDraw(dxCommon->GetCommandList());
+#pragma region 3Dモデル描画
+	Model::PreDraw(dxCommon->GetCommandList());
 
-	background1_->Draw();
-	background2_->Draw();
+	stageModel_->Draw(worldTransform_, *camera);
 
-	Sprite::PostDraw();
+	Model::PostDraw();
+#pragma endregion
 }

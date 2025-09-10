@@ -106,7 +106,9 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="OxygenGauge.cpp" />
+    <ClCompile Include="Pose.cpp" />
     <ClCompile Include="scene\ResultScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -196,7 +198,9 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="OxygenGauge.h" />
+    <ClInclude Include="Pose.h" />
     <ClInclude Include="scene\ResultScene.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="scene\IScene.h" />

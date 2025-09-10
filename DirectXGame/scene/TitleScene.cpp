@@ -26,7 +26,7 @@ void TitleScene::Initialize() {
     camera_.Initialize();
 
     // ----- 背景スプライト初期化 -----
-    backgroundSpriteHandle_ = TextureManager::Load("black1x1.png");
+    backgroundSpriteHandle_ = TextureManager::Load("BackGround.png");
     backgroundSprite_ = Sprite::Create(backgroundSpriteHandle_, { 0.0f, 0.0f });
     backgroundSprite_->SetSize(Vector2(1280, 720));
 
@@ -40,14 +40,27 @@ void TitleScene::Initialize() {
     titleUISprite_ = Sprite::Create(titleUISpriteHandle_, { 0.0f, 0.0f });
     titleUISprite_->SetSize(Vector2(1280, 720));
     titleUISprite_->SetColor({ 1, 1, 1, 0 }); // 初期透明
+
+    // フェードの初期化
+    fade_.Initialize();
+    fadeOutStarted_ = false;
 }
 
 // ==============================
 // 更新
 // ==============================
 void TitleScene::Update() {
+    // フェードの更新
+    fade_.Update();
+
     // ----- Enterキーでシーン終了 -----
-    if (input_->TriggerKey(DIK_RETURN)) {
+    if (input_->TriggerKey(DIK_RETURN) && fade_.GetState() == Fade::State::Stay) {
+        fade_.StartFadeOut();
+        fadeOutStarted_ = true;
+    }
+
+    // フェードアウト完了でシーン終了
+    if (fadeOutStarted_ && fade_.IsFinished()) {
         finished_ = true;
     }
 
@@ -93,6 +106,8 @@ void TitleScene::Draw() {
     Sprite::PreDraw(dxCommon->GetCommandList());
     titleSprite_->Draw();
     titleUISprite_->Draw();
+    // フェードの描画
+    fade_.Draw();
     Sprite::PostDraw();
 #pragma endregion
 }

@@ -6,6 +6,8 @@
 #include "../Score.h"
 #include "../Timer.h"
 #include "../OxygenGauge.h"
+#include "../Pose.h"
+#include "../Fade.h"
 
 #include "IScene.h"
 #include <KamataEngine.h>
@@ -60,6 +62,9 @@ private:
     Score* score_ = nullptr;                          // スコア表示
     Timer* timer_ = nullptr;                          // 制限時間タイマー
     OxygenGauge* oxygenGauge_ = nullptr;              // 酸素ゲージ
+    Pose* pose_ = nullptr;                            // ポーズ
+    Fade fade_;
+    bool fadeOutStarted_ = false;
 
     int previousScore_ = 0;
 
@@ -67,6 +72,10 @@ private:
     // オーディオ
     // ==============================
     uint32_t scoreSEHandle_ = 0; // 宝物取得時のSE
+
+    // UI
+	uint32_t UIHandle_ = 0; // UI
+	KamataEngine::Sprite* UISprite_ = nullptr;
 
     // ==============================
     // スコア・状態管理
