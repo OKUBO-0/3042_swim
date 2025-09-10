@@ -22,12 +22,12 @@ void OxygenGauge::Initialize() {
     // ----- 背景バー（赤） -----
     background_ = Sprite::Create(dummyTextureHandle_, position_);
     background_->SetSize(size_);
-    background_->SetColor({ 1.0f, 0.0f, 0.0f, 0.5f });
+    background_->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 
     // ----- 満タンバー（青） -----
     fill_ = Sprite::Create(dummyTextureHandle_, position_);
     fill_->SetSize(size_);
-    fill_->SetColor({ 0.0f, 0.0f, 1.0f, 0.8f });
+    fill_->SetColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 }
 
 // ==============================

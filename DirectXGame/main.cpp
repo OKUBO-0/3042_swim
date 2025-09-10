@@ -14,7 +14,7 @@ using namespace KamataEngine;
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
     // ----- エンジン初期化 -----
-    Initialize(L"3042_swim");
+    Initialize(L"3042_ダイブ");
 
     // DirectXCommon のインスタンス取得
     DirectXCommon* dxCommon = DirectXCommon::GetInstance();
